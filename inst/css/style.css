@@ -1,0 +1,220 @@
+body {
+  margin-right: 10px;
+}
+
+html, body, p, table, input, textarea {
+  font-family:       Arial, sans-serif;
+  font-size:         12px;
+}
+
+a {
+   outline:          0;
+}
+
+
+h1 {
+  font-size:         18px;
+  margin-top:        35px;
+  text-transform:    uppercase;
+  border-bottom:     1px solid #003366;
+  color:             #003366;
+}
+
+h2 {
+  font-size:         16px;
+  margin-top:        25px;
+  margin-bottom:     10px;
+}
+
+h3 {
+  font-size:         14px;
+  margin-top:        20px;
+  margin-bottom:     10px;
+}
+
+h4, h5 {
+  font-size:         12px;
+  margin-top:        20px;
+  margin-bottom:     8px;
+}
+
+
+#header, .abstract {
+  padding-bottom:    10px;
+}
+
+.abstract {
+  padding:          10px;
+  margin-top:       10px;
+  margin-right:     0px;
+  border-radius:    4px;
+  color:            #0069BD;
+  background-color: #ebf6ff;
+  border:           1px solid #0069BD;
+}
+
+.abstract-SUCCESS, .abstract-FAILED {
+  padding:          10px;
+  margin-right:     0px;
+  border-radius:    4px;
+  color:            #000000;
+  margin-bottom:    5px;
+  
+}
+
+.abstract-FAILED {
+  background-color: #ffe5e5;
+  border:           1px solid #e60000;
+}
+.abstract-SUCCESS {
+  background-color: #ccffcc;
+  border:           1px solid #00b300;
+}
+
+
+
+.headline-1 {
+  font-size:        10px;
+  color:            #606162;
+}
+
+.headline-2 {
+  font-weight:      bold;
+  font-size:        24px;
+}
+
+.exec-teststate {
+	font-size:        18px;
+  color:            #000000;
+  margin-bottom:    5px;
+}
+
+
+a.backlink {
+  display:          block;
+  width:            100%;
+  text-align:       right;
+  font-size:        8px;
+  padding-top:      8px;
+  padding-bottom:   12px;
+}
+
+
+th, td {
+	padding:         3px;
+}
+
+.tr-border-bottom td, .tr-border-bottom th {
+  border-bottom:   1px solid #000000;
+}
+
+td.spacer {
+	height: 10px;
+}
+
+
+table.TCSummary {
+  width:           100%;
+  border-collapse: separate; 
+  border-spacing:  1px;
+  border:          1px solid #0069BD;
+}
+
+table.TCSummary th {
+	background-color: #c4ccd4;
+	font-weight:      bold;    
+	color:            #0069BD;  
+}
+
+
+table.TCExpecSummary {
+  width:           100%;
+  border-collapse: separate; 
+  border-spacing:  1px;
+  border-top:      1px solid #0069BD;
+}
+
+table.TCExpecSummary th {
+  background-color: #E9ECEF;
+  font-weight:      bold;    
+  color:            #0069BD;  
+}
+
+
+
+table.TC-Level1, table.TC-Level2, table.TC-Level3, table.TC-Level4 {
+  width:           100%;
+  border-top:      1px solid #0069BD;
+  border-left:     1px solid #0069BD;
+  padding-right:   0px;
+  margin-right:    0px;
+}
+
+table.TC-Level1 > td, table.TC-Level2 > td, table.TC-Level3 > td, table.TC-Level4 > td {
+	 padding-bottom: 0px !important;
+	 margin-bottom: 0px !important;
+  padding-right: 0px !important;
+  margin-right: 0px !important;
+}
+
+table.TC-Level3, table.TC-Level4 {
+	margin-bottom: 5px;
+}
+
+td.TC-Level1-head, td.TC-Level3-head {
+  font-weight:      bold;    
+  font-size:        15px;
+  color:            #FFFFFF;
+  background-color: #0069bd;
+}
+
+td.TC-Level2-head, td.TC-Level4-head {
+  font-weight:      bold;    
+  font-size:        12px;
+  color:            #000000;
+  background-color: #ebf6ff;
+}
+
+
+td.TC-Level1-left, td.TC-Level3-left {
+	 width: 15px;
+	 background-color: #0069bd;
+}
+
+td.TC-Level2-left, td.TC-Level4-left {
+  width: 12px;
+  background-color: #ebf6ff;
+}
+
+td.TC-Level1-content, td.TC-Level2-content, td.TC-Level3-content, td.TC-Level4-content {
+   padding-right: 0px;
+   padding-bottom: 0px;
+}
+
+
+
+
+
+.SUCCESS {
+	background-color: #00b300;
+	color: #ffffff;
+}
+
+.FAILED {
+	background-color: #e60000;
+	color: #ffffff;
+}
+
+.NO-TESTS {
+  background-color: #f0f2f4;
+}
+
+div.SUCCESS, div.FAILURE, div.NOTESTS {
+	padding:    3px;
+	text-align: center;
+}
+
+
+.FAILURE-msg {
+  color: #FF0000;
+}

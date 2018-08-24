@@ -1,0 +1,100 @@
+# Generics and functions defined in this package ##################################################
+
+export(
+  "RTestCase"                                 , 
+  "setTestMethod"                             ,
+  
+  "xmlReadData_variable"                      ,
+  "xmlReadData_image"                         ,
+  "xmlReadData_vector"                        ,
+  "xmlReadData_data.frame"                    ,
+  "xmlReadData_list"                          ,
+  "xmlReadData_text"                          ,
+  "xmlRead.default"                           ,
+  "xmlReadData_to_list"                       ,
+  
+  "xmlWriteContext"                           , 
+  "xmlWriteSynopsis"                          ,
+  "xmlWriteInputData"                         ,
+  "xmlWriteTests"                             ,
+  "xmlWriteTest"                              ,
+  "xmlWriteTestFunction"                      ,
+  "xmlWriteTestSpec"                          ,
+  "xmlWriteData_data.frame"                   ,
+  "xmlWriteData_vector"                       ,
+  "xmlWriteData_variable"                     ,
+  "xmlWriteTest_data.frame_cellbycell"        ,
+  "xmlWriteTest_vector_elementbyelement"      ,
+  "xmlWriteTest_list_nodebynode"              ,
+  "xmlWriteTest_execution"                    ,
+  "xmlFromList"								  ,
+  
+  "test_execution"                            ,
+  "test_returnValue_variable"                 ,
+  "test_returnValue_vector_elementbyelement"  ,
+  "test_returnValue_data.frame_cellbycell"    ,
+  "test_returnValue_data.frame_shape"         ,
+  "test_returnValue_list_nodebynode"          ,
+  "test_manualCheck_file"                     ,
+  "test_manualCheck_confirmWindow"            ,
+  "test_returnValue_image"					  ,
+  "systemInfo.packages"                       ,
+  "systemInfo.RInst"                          ,
+  "systemInfo.host"                           ,
+  "package_md5"								  ,
+  "normalizeDate"                             ,
+  "htmlify_string"                            ,
+  
+  "test_fun"
+)
+
+
+
+# Packages which are imported (appearing in the Description->Imports enumeration) #################
+
+import( 
+  "XML"                                      ,
+  "testthat"                                 ,
+  "base64"                                   ,
+  "jsonlite"                                 ,
+  "methods"								     ,
+  "stringr"
+)
+
+importFrom(
+	"stringr","str_extract")
+
+importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
+             "tar"
+)
+
+
+# Exported classes and corresponding methods ######################################################
+
+exportClasses(
+  "RTestCollection"                          , 
+  "RTestCase"                                
+)
+
+exportMethods(  
+  # RTestCollection -------------------------------------------------------------------------------
+  "show"                                     ,
+  "importTC"                                 ,
+  "importTCsFromDir"                         ,
+  "getTC"                                    ,
+  "exec"                                     ,
+  "getExecStates"                            ,
+  "summary"                                  ,
+  "writeExecSummary.html"                    ,
+  "getRTM"                                   ,
+  "getRTMInMatrixShape"                      ,
+  
+  # RTestCase -------------------------------------------------------------------------------------
+  "show"       								 ,       
+  "test"									 ,               
+  
+  # Test Adapter
+  "test.RTest.test_returnValue_data.frame_cellbycell",
+  "test.RTest.funct_01"
+         
+)
