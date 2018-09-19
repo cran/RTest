@@ -1728,53 +1728,22 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
         if(test.tolerance == 0)
           test.tolerance <- 1.5e-8
         
-        difference_png_name <- paste0(tempfile(),".png")
+        difference_png_name <- tempfile( fileext =".png")
         
         
-        ImageMagick <- tryCatch({
-					if(Sys.info()["sysname"]=="Windows"){
-		              shell("magick",intern=T)
+        ImageMagick <- if(Sys.which("magick")!=""){
+					"magick "
+				}else{
+					if(Sys.which("compare")==""){
+						stop("No ImageMagick installed. Please use \n
+										sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
+										on Linux or download ImageMagick for Windows.
+										")
 					}else{
-					  system("magick",intern=T)
+						""
 					}
-              "magick "
-            },
-            warning = function(w){
-              Sys.setenv(PATH=paste("C:\\Program Files\\ImageMagick-6.9.0-Q8",
-                      Sys.getenv("PATH"),
-                      sep=";"))
-	  		  tryCatch({
-						  if(Sys.info()["sysname"]=="Windows"){
-							  shell("compare",intern=T)
-						  }else{
-							  system("compare",intern=T)
-						  }
-						  return("")
-					  },warning=function(w){
-						  if(grepl("status 1",w)){
-							  stop("No ImageMagick installed. Please use \n
-								sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
-								on Linux or download ImageMagick for Windows.
-								")
-						  }else{
-							  
-							  return("")
-						  }
-					  })
-              
-            },
-			error=function(e){
-				tryCatch({
-							system("convert",intern=T)
-							return("")
-						},error=function(e){
-							stop("No ImageMagick installed. Please use \n
-											sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
-											on Linux or download ImageMagick for Windows.
-											")
-						})
-			}
-        )
+				}
+		
 		if(Sys.info()["sysname"]=="Windows"){
 			compare_result <- suppressWarnings(shell(
 							paste(ImageMagick,"compare -metric RMSE \"",
@@ -1797,10 +1766,11 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
                 stringr::str_extract(compare_result[1],"\\([^\\)]*")
             )
         )
-		base64::encode(difference_png_name, difference_png_name)
+		difference_png_name_text <- tempfile()
+		base64::encode(difference_png_name, difference_png_name_text)
         
         src <- sprintf("data:image/png;base64,%s", 
-            paste(readLines(difference_png_name), collapse = ""))
+            paste(readLines(difference_png_name_text), collapse = ""))
         
         image_for_info <- 
             sprintf("<img width=200 src='%s' alt='%s' />",

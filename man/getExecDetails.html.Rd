@@ -6,7 +6,8 @@
 \alias{getExecDetails.html,RTestCase-method}
 \title{Create Detailed HTML Summary of the Last Execution of the Test Case}
 \usage{
-\S4method{getExecDetails.html}{RTestCase}(object, report.onlyFailed = FALSE)
+\S4method{getExecDetails.html}{RTestCase}(object,
+  report.onlyFailed = FALSE)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object.}

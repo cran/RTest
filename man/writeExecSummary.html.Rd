@@ -7,7 +7,8 @@
 \title{Write Summary of Last Test Case Executions as HTML}
 \usage{
 \S4method{writeExecSummary.html}{RTestCollection}(object, out.fPath,
-  test.TCs = NULL, open = TRUE, report.onlyFailed = FALSE, logo = NULL)
+  test.TCs = NULL, open = TRUE, report.onlyFailed = FALSE,
+  logo = NULL)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCollection-class}} object.}

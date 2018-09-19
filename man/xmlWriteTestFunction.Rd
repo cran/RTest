@@ -4,9 +4,9 @@
 \alias{xmlWriteTestFunction}
 \title{Write the Test section for a RTestCase}
 \usage{
-xmlWriteTestFunction(elemname, testdesc = NA, execresid = NA, specid = NA,
-  riskid = NA, params = "", reference = "", testspec = "",
-  printXML = TRUE)
+xmlWriteTestFunction(elemname, testdesc = NA, execresid = NA,
+  specid = NA, riskid = NA, params = "", reference = "",
+  testspec = "", printXML = TRUE)
 }
 \arguments{
 \item{elemname}{(\code{character}) The name of the element's root tag}

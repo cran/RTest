@@ -4,7 +4,8 @@
 \alias{test_returnValue_variable}
 \title{Tests a Standard R 'variable' ('RTestTest_vector_variable')}
 \usage{
-test_returnValue_variable(result, reference, xmlTestSpec, add.desc = NULL)
+test_returnValue_variable(result, reference, xmlTestSpec,
+  add.desc = NULL)
 }
 \arguments{
 \item{result}{(\code{object}) The result object to be tested.}

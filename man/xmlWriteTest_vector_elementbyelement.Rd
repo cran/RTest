@@ -5,8 +5,8 @@
 \title{Write XML Test Definition of Type 'RTestTest_vector_elementbyelement'}
 \usage{
 xmlWriteTest_vector_elementbyelement(elemname = "return-value",
-  testname = "vector_elementbyelement", data = NULL, test = "absolute",
-  tolerance = 0, printXML = TRUE)
+  testname = "vector_elementbyelement", data = NULL,
+  test = "absolute", tolerance = 0, printXML = TRUE)
 }
 \arguments{
 \item{elemname}{(\code{character}) The tag name of the test}

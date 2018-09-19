@@ -6,8 +6,8 @@
 \alias{exec,RTestCollection-method}
 \title{Tests imported Test Cases}
 \usage{
-\S4method{exec}{RTestCollection}(object, test.TCs = NULL, test.for = NULL,
-  out.fPath = NULL, open = TRUE, ...)
+\S4method{exec}{RTestCollection}(object, test.TCs = NULL,
+  test.for = NULL, out.fPath = NULL, open = TRUE, ...)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCollection-class}} object.}

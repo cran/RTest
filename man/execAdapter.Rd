@@ -6,8 +6,8 @@
 \alias{execAdapter,RTestCase-method}
 \title{Execute the Adapter Function of the Test Case}
 \usage{
-\S4method{execAdapter}{RTestCase}(object, tf.pkg, tf.pkg.i, tf.func, tf.func.i,
-  out.fPathPre = NULL, ...)
+\S4method{execAdapter}{RTestCase}(object, tf.pkg, tf.pkg.i, tf.func,
+  tf.func.i, out.fPathPre = NULL, ...)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object}

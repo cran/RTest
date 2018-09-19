@@ -4,9 +4,9 @@
 \alias{RTestCase}
 \title{Constructor for RTestCase}
 \usage{
-RTestCase(ID = NULL, tc.type = NULL, synopsis = NULL, xml.fPath = NULL,
-  xml.root = NULL, input.data = NULL, tests = NULL, test.for = NULL,
-  test.result = NULL)
+RTestCase(ID = NULL, tc.type = NULL, synopsis = NULL,
+  xml.fPath = NULL, xml.root = NULL, input.data = NULL,
+  tests = NULL, test.for = NULL, test.result = NULL)
 }
 \arguments{
 \item{ID}{(\code{character}) ID of the TC.}

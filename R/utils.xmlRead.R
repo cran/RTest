@@ -108,49 +108,19 @@ xmlReadData_image <- function(xmlItem) {
 	# Cast the type variable
 	variable.value <-  as.character(variable.value)
 	
-	imageMagick <- tryCatch({
-				if(Sys.info()["sysname"]=="Windows"){
-					shell("magick",intern=T)
+	imageMagick <- 
+				if(Sys.which("magick")!=""){
+					"magick "
 				}else{
-					system("magick",intern=T)
-				}
-				"magick "
-			},
-			warning = function(w){
-				Sys.setenv(PATH=paste("C:\\Program Files\\ImageMagick-6.9.0-Q8",
-								Sys.getenv("PATH"),
-								sep=";"))
-				return("")
-				tryCatch({
-							if(Sys.info()["sysname"]=="Windows"){
-								shell("convert",intern=T)
-							}else{
-								system("convert",intern=T)
-							}
-							
-						},warning=function(w){
-							if(!grepl("unable to open ",w)){
-								stop("No ImageMagick installed. Please use \n
-									sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
-									on Linux or download ImageMagick for Windows.
-									")
-							}else{
-								return("")
-							}
-						})
-			},
-			error=function(e){
-				tryCatch({
-					system("convert",intern=T)
-					return("")
-				},error=function(e){
+					if(Sys.which("convert")==""){
 						stop("No ImageMagick installed. Please use \n
 										sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
 										on Linux or download ImageMagick for Windows.
 										")
-					})
-			}
-	)
+					}else{
+									""
+								}
+				}
 	
 	tf <- paste0(tempfile(),".png")
 	

@@ -6,7 +6,8 @@
 \alias{execCache,RTestCase-method}
 \title{Execution Cache for Test Function}
 \usage{
-\S4method{execCache}{RTestCase}(object, tf.pkg, tf.pkg.i, tf.func, tf.func.i)
+\S4method{execCache}{RTestCase}(object, tf.pkg, tf.pkg.i, tf.func,
+  tf.func.i)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object}

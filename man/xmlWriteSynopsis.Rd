@@ -5,9 +5,9 @@
 \title{Write the Synopsis for a RTestCase}
 \usage{
 xmlWriteSynopsis(version, author, shortDescription = NULL,
-  description = NULL, creationDate = NULL, changes = list(list(author =
-  author, date = creationDate, desc = "Initial Version")), label = NULL,
-  printXML = TRUE)
+  description = NULL, creationDate = NULL, changes = list(list(author
+  = author, date = creationDate, desc = "Initial Version")),
+  label = NULL, printXML = TRUE)
 }
 \arguments{
 \item{version}{(\code{dcharacter}) Version Number}

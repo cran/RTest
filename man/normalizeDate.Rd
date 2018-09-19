@@ -5,9 +5,9 @@
 \title{Reformat a Date String}
 \usage{
 normalizeDate(d, asDate = TRUE, months = c(jan = "january", feb =
-  "februrary", mar = "march", apr = "april", may = "may", jun = "june", jul =
-  "july", aug = "august", sep = "september", oct = "october", nov = "november",
-  dec = "december"))
+  "februrary", mar = "march", apr = "april", may = "may", jun = "june", jul
+  = "july", aug = "august", sep = "september", oct = "october", nov =
+  "november", dec = "december"))
 }
 \arguments{
 \item{d}{(\code{character}) The date to be converted.}

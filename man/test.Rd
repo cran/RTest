@@ -6,8 +6,8 @@
 \alias{test,RTestCase-method}
 \title{Execute Test Logic of the Test Case}
 \usage{
-\S4method{test}{RTestCase}(object, test.for = NULL, out.fPathPre = NULL,
-  ...)
+\S4method{test}{RTestCase}(object, test.for = NULL,
+  out.fPathPre = NULL, ...)
 }
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object.}

@@ -4,9 +4,9 @@
 \alias{xmlWriteTest_data.frame_cellbycell}
 \title{Write XML Test Definition of Type 'RTestTest_data.frame_cellbycell'}
 \usage{
-xmlWriteTest_data.frame_cellbycell(elemname = "test", desc = "testname",
-  data, diff_type = "absolute", tolerance = 0, compare_type = "equal",
-  printXML = TRUE)
+xmlWriteTest_data.frame_cellbycell(elemname = "test",
+  desc = "testname", data, diff_type = "absolute", tolerance = 0,
+  compare_type = "equal", printXML = TRUE)
 }
 \arguments{
 \item{elemname}{(\code{character}) The tag name of the test}
