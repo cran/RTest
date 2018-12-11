@@ -52,7 +52,7 @@
 #' @slot     test.result   (\code{character}) Result of the last test case execution ('SUCCESS' or 
 #'                         'FAILURE'). NULL, if the test case has not been executed.
 #'
-#' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
+#' @author   Matthias Pfeifer \email{matthiaspfeifer@@gmx.net}
 setClass(
   Class          = "RTestCase",
   
@@ -95,10 +95,10 @@ setClass(
 #' @export 
 #' 
 #' @examples 
-#' 
+#' library(RTest)
 # Define the params and TestSpec
 #' xml.root <- XML::newXMLNode("func01")
-#' xmlFromList(xml.root,
+#' RTest::xmlFromList(xml.root,
 #' 		list(
 #' 				params=list(mult=list(attributes=c(value="1",type="numeric"))),
 #' 				testspec=list(

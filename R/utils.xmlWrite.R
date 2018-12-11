@@ -50,6 +50,7 @@
 #' #  </b>
 #' #</root> 
 #' 
+#' @export 
 #' @author   Sebastian Wolf \email{sebastian.wolf.sw1@@roche.com}
 xmlFromList <- function(node, sublist){
 	for(i in 1:length(sublist)){
@@ -85,6 +86,7 @@ xmlFromList <- function(node, sublist){
 #' 
 #' @return   (\code{list}) Opening [[1]] and Closing [[2]] of the Test Case
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteContext <- function(TCType, id, opening = TRUE, closing = TRUE,
     xsd.scheme = NULL, printXML = TRUE) 
@@ -139,6 +141,7 @@ xmlWriteContext <- function(TCType, id, opening = TRUE, closing = TRUE,
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteSynopsis <- function(version, author, 
     shortDescription = NULL, description = NULL, creationDate = NULL, 
@@ -288,7 +291,7 @@ xmlWriteTests <- function(...,
 #' @param    printXML    (\code{logical}) Print output or return xml as R object    
 #' 
 #' @return   (\code{character})
-#' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest <- function(elemname, testdesc = NA, ..., 
     printXML = TRUE) 
@@ -336,7 +339,7 @@ xmlWriteTest <- function(elemname, testdesc = NA, ...,
 #' @param    printXML    (\code{logical}) Print output or return xml as R object    
 #' 
 #' @return   (\code{character})
-#' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTestFunction <- function(
 	elemname, 
@@ -476,7 +479,7 @@ xmlWriteTestSpec <- function(...,
 #' @param    printXML    (\code{logical}) Print output or return xml as R object
 #' 
 #' @return   (\code{character})
-#' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteData_data.frame <- function(elemname = "data", data, name = NULL, printXML = TRUE) {
   
@@ -493,7 +496,19 @@ xmlWriteData_data.frame <- function(elemname = "data", data, name = NULL, printX
       sapply(
           colnames(data),
           function(c) {
-            paste0("  <coldef name=\"",c,"\" type=\"",mode(data[[c]]),"\" />")
+            paste0("  <coldef name=\"",c,"\" type=\"",
+					
+					if(typeof(data[[c]])=="integer"){
+						if(grepl("Factor",capture.output(str(data[[c]])))){
+							"factor"
+						}else{
+							"numeric"
+						}
+					}else if(typeof(data[[c]])=="double"){
+						"numeric"
+					}else{
+						class(data[[c]])
+					},"\" />")
           }, simplify = TRUE, USE.NAMES = FALSE),
       "</col-defs>")
   
@@ -543,6 +558,7 @@ xmlWriteData_data.frame <- function(elemname = "data", data, name = NULL, printX
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteData_vector <- function(elemname = "vector", data, name = NULL,  printXML = TRUE) {
   
@@ -596,6 +612,7 @@ xmlWriteData_vector <- function(elemname = "vector", data, name = NULL,  printXM
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteData_variable <- function(elemname = "variable", data, name = NULL, printXML = TRUE) {
   
@@ -623,6 +640,80 @@ xmlWriteData_variable <- function(elemname = "variable", data, name = NULL, prin
     return(xml)
 }
 
+# xmlWriteData_list ############################################################################
+
+#' Write a R 'list' as XML Data of Type 'xmlReadData_list' 
+#'
+#' @param    elemname       (\code{character}) The name of the element's root tag
+#' @param    data           (\code{ANY}) The list to write
+#' @param    name           (\code{character}) The name of the list
+#' @param    printXML       (\code{logical}) Print output or return xml as R object
+#' 
+#' @return   (\code{character})
+#' 
+#' @export 
+#' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
+xmlWriteData_list <- function(elemname = "list", data, name = NULL, printXML = TRUE) {
+  
+  # Check input -----------------------------------------------------------------------------------
+  
+  data.class <- class(data)
+  
+  stopifnot(class(data) %in% c("list"))
+  
+  xml <- paste0("<",elemname,
+		  if(!is.null(name)){
+			  if(name != ""){
+				  paste0(" name=\"",name,"\"")
+			  }
+		  }
+		  ,">")
+  for(i in 1:length(data)){
+	  listelement <- data[[i]]
+	  listelementname <- names(data)[i]
+			  
+	  if(length(listelement)>0){
+		  if(class(listelement)=="list"){
+			  xml <- paste0(xml,xmlWriteData_list(
+							  data = listelement,
+							  name = listelementname,
+							  printXML = F
+							  ))
+		  }else if(class(listelement)=="data.frame"){
+			  xml <- paste0(xml,
+					  paste(xmlWriteData_data.frame(
+							  name=listelementname,
+							  data = listelement,
+							  printXML = F
+					  ),collapse="\n"))
+	  	  }else{
+			  xml <- paste0(xml,					  
+					  paste(xmlWriteData_vector(
+							  name=listelementname,
+							  data = listelement,
+							  printXML = F
+					  ),collapse = "\n"))
+		  }
+	  }else{
+		  
+		  xml <- paste0(xml,xmlWriteData_variable(
+						  name=listelementname,
+						  data = listelement,
+						  printXML = F
+				  ))
+	  }
+			  
+			  
+  }#for
+  
+  xml <- paste0(xml,paste0("\n</",elemname," >"))
+  
+  if(printXML)
+    cat(paste(xml, collapse="\n"), "\n")
+  else
+    return(xml)
+}
+
 
 
 # xmlWriteTest_execution ##########################################################################
@@ -637,6 +728,7 @@ xmlWriteData_variable <- function(elemname = "variable", data, name = NULL, prin
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest_execution <- function(elemname = "execution", desc = NULL, 
     executionType = "silent", printXML = TRUE) 
@@ -671,7 +763,7 @@ xmlWriteTest_execution <- function(elemname = "execution", desc = NULL,
 #' @param    printXML       (\code{logical}) Print output or return xml as R object
 #' 
 #' @return   (\code{character})
-#' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest_variable <- function(elemname = "return-value", 
     testname = "variable", 
@@ -705,7 +797,7 @@ xmlWriteTest_variable <- function(elemname = "return-value",
 #' @param    printXML       (\code{logical}) Print output or return xml as R object
 #' 
 #' @return   (\code{character})
-#' 
+#' @export
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest_vector_elementbyelement <- function(elemname = "return-value", 
     testname = "vector_elementbyelement", data = NULL, 
@@ -784,6 +876,7 @@ xmlWriteTest_vector_elementbyelement <- function(elemname = "return-value",
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest_data.frame_cellbycell <- function(elemname = "test",
     desc = "testname",
@@ -865,6 +958,7 @@ xmlWriteTest_data.frame_cellbycell <- function(elemname = "test",
 #' 
 #' @return   (\code{character})
 #' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 xmlWriteTest_list_nodebynode <- function(elemname = "return-value", 
     testname = "list_nodebynode", data = NULL, 

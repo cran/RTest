@@ -225,12 +225,17 @@ setMethod("importTC",
       # Create new instance of RTestCase class  - - - - - - - - - - - - - - - - - - - - - - - - - - -
       RTest.cat("Create new TC using adapter definition '",tc.adapter,"'.")
       
-      tc <- do.call(
+      tc <- tryCatch(
+			  do.call(
           what = tc.adapter,
 		  args=list(
 				  xml.fPath = xml.fPath
 				  )
-         )
+         ),error=function(e){
+			 new( tc.adapter, 
+					 xml.fPath = xml.fPath)
+		 })
+ 
       
       RTest.print(tc)
       

@@ -67,6 +67,7 @@ importFrom(
 importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
              "tar"
 )
+importFrom("magick", "image_compare","image_read","image_write")
 
 
 # Exported classes and corresponding methods ######################################################

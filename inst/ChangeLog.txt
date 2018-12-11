@@ -8,6 +8,15 @@
 #                                                                                                 #
 ###################################################################################################
 
+# Version 1.1.10.0 (2018-Nov-20) ##################################################################
+
+- wolfs25 Cleaned comparison inside tables to show the right reference type (was defect and
+	showed the result type instead of reference type)
+
+# Version 1.1.9.0
+
+- CRAN release
+
 # Version 1.1.8.0 (2018-July-03) ##################################################################
 
 - (pfeifem5) test functions for vectors and lists recognize empty data structures  

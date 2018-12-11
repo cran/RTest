@@ -84,7 +84,7 @@ RTest.print <- function(...) {
 #' @param    where           (\code{env}) An environment where to set up the Method
 #' 
 #' @seealso  \code{\link[methods]{setGeneric}}, \code{\link[methods]{setMethod}}
-#' 
+#' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 setTestMethod <- function(
   f, 

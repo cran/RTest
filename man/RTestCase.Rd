@@ -41,9 +41,9 @@ executed.}
 Constructor for RTestCase
 }
 \examples{
-
+library(RTest)
 xml.root <- XML::newXMLNode("func01")
-xmlFromList(xml.root,
+RTest::xmlFromList(xml.root,
 		list(
 				params=list(mult=list(attributes=c(value="1",type="numeric"))),
 				testspec=list(

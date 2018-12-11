@@ -27,5 +27,5 @@ XML files or any other file format. Therefore, it is used as unit testing system
 package, which itself implements the functionalities to use XML-based test case definitions.
 }
 \author{
-Matthias Pfeifer \email{matthias.pfeifer@roche.com}
+Sebastian Wolf \email{sebastian@mail-wolf.de}
 }

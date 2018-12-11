@@ -4,6 +4,7 @@ library(RTest)
 
 
 ## ---- eval = TRUE, echo = TRUE-------------------------------------------
+library(RTest)
 
 ## Define the functions to be tested
 test_fun <- function(dat, mult) {
@@ -22,8 +23,7 @@ setClass(
 		where = .GlobalEnv
 )
 
-
-setTestMethod(
+RTest::setTestMethod(
 		"test.Pkg_1.funct_01", 
 		signature  = "TestPackageTestCase",
 		definition = function(object, inputData, execCache, xmlDef, ...) {

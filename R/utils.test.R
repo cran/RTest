@@ -725,9 +725,9 @@ test_returnValue_data.frame_cellbycell <- function(result, reference, xmlTestSpe
         
         
         rec.colTypes <- sapply(1:rec.ncols, function(i) {
-              type <- typeof(reference[[i]])
+              type <- typeof(result[[i]])
               if(type=="integer"){
-                if(grepl("Factor",capture.output(str(reference[[i]])))){
+                if(grepl("Factor",capture.output(str(result[[i]])))){
                   "factor"
                 }else{
                   type
@@ -1664,6 +1664,7 @@ test_manualCheck_confirmWindow <- function(openrecexp = NULL, expectedTxt = NULL
 #'			}
 #'		})
 #'		
+#' @importFrom magick image_compare image_read image_write
 #' @author   Sebastian Wolf \email{sebastian.wolf.sw1@@roche.com}
 test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NULL) {
   
@@ -1728,45 +1729,58 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
         if(test.tolerance == 0)
           test.tolerance <- 1.5e-8
         
-        difference_png_name <- tempfile( fileext =".png")
+        difference_png_name <- tempfile( fileext = ".png")
         
         
-        ImageMagick <- if(Sys.which("magick")!=""){
-					"magick "
-				}else{
-					if(Sys.which("compare")==""){
-						stop("No ImageMagick installed. Please use \n
-										sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
-										on Linux or download ImageMagick for Windows.
-										")
-					}else{
-						""
-					}
-				}
-		
-		if(Sys.info()["sysname"]=="Windows"){
-			compare_result <- suppressWarnings(shell(
-							paste(ImageMagick,"compare -metric RMSE \"",
-									gsub("\\\\", "/", result),"\" \"",
-									gsub("\\\\", "/",reference),"\" ",
-									paste0("\"",difference_png_name,"\""," 2>&1"),sep=""),
-							intern=T))
-		}else{
-			compare_result <- suppressWarnings(system(
-							paste(ImageMagick,"compare -metric RMSE \"",
-									gsub("\\\\", "/", result),"\" \"",
-									gsub("\\\\", "/",reference),"\" ",
-									paste0("\"",difference_png_name,"\""," 2>&1"),sep=""),
-							intern=T))
-		}
-       
+#        ImageMagick <- if(Sys.which("magick")!=""){
+#					"magick "
+#				}else{
+#					if(Sys.which("compare")==""){
+#						stop("No ImageMagick installed. Please use \n
+#										sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
+#										on Linux or download ImageMagick for Windows.
+#										")
+#					}else{
+#						""
+#					}
+#				}
+#		
+#		if(Sys.info()["sysname"]=="Windows"){
+#			compare_result <- suppressWarnings(shell(
+#							paste(ImageMagick,"compare -metric RMSE \"",
+#									gsub("\\\\", "/", result),"\" \"",
+#									gsub("\\\\", "/",reference),"\" ",
+#									paste0("\"",difference_png_name,"\""," 2>&1"),sep=""),
+#							intern=T))
+#		}else{
+#			compare_result <- suppressWarnings(system(
+#							paste(ImageMagick,"compare -metric RMSE \"",
+#									gsub("\\\\", "/", result),"\" \"",
+#									gsub("\\\\", "/",reference),"\" ",
+#									paste0("\"",difference_png_name,"\""," 2>&1"),sep=""),
+#							intern=T))
+#		}
         
-        difference_in_percent <- as.numeric(
-            sub("\\(","",
-                stringr::str_extract(compare_result[1],"\\([^\\)]*")
-            )
-        )
+#        difference_in_percent <- as.numeric(
+#            sub("\\(","",
+#                stringr::str_extract(compare_result[1],"\\([^\\)]*")
+#            )
+#        )
+				
+		image_compared <- magick::image_compare(
+				image=magick::image_read(result),
+				reference_image = magick::image_read(reference),
+				metric = "RMSE")
+		difference_in_percent <- attributes(image_compared)$distortion
+
+		magick::image_write(
+				image_compared,
+				path = difference_png_name
+						
+		)
+
 		difference_png_name_text <- tempfile()
+		
 		base64::encode(difference_png_name, difference_png_name_text)
         
         src <- sprintf("data:image/png;base64,%s", 

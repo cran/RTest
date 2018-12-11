@@ -274,7 +274,7 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
         xmlItem.coldefs,
         function(xmlDefs) { xmlApply(xmlDefs, xmlAttrs) },
         simplify = FALSE, USE.NAMES = TRUE), recursive = FALSE) 
-  
+
   # Read data table contents: iterate trhough xmlItems to read row and cell entries   - - - - - - -
   if(!is.null(xmlItem.rows)) {
     # If rows are available, parse contents
@@ -365,36 +365,38 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
 
   
   # Define column types
-  sapply(table.coldefs, 
-    function(c) {
+  sapply(1:length(table.coldefs), 
+    function(i) {
       
+	  c <- table.coldefs[[i]]
+		
       if("type" %in% names(c)) {
         if       (c["type"] == "numeric" || c["type"] == "integer") {
           
           # Casting (complex way to avoid warning if NAs in table), 
           # as the simple 'as.numeric(table[,c["name"]])' not possible
-          tmp <- table[,c["name"]]
-          tmp[table[,c["name"]] == "NA"] <- 0
+          tmp <- table[,i]
+          tmp[table[,i] == "NA"] <- 0
           tmp <- suppressWarnings({ as.numeric(tmp) })
-          tmp[table[,c["name"]] == "NA"] <- NA
+          tmp[table[,i] == "NA"] <- NA
           if(c["type"] == "integer") tmp <- as.integer(tmp)
-          table[,c["name"]] <<- tmp
+          table[,i] <<- tmp
           
         } else if(c["type"] == "factor") {
-          table[,c["name"]] <<- factor(table[,c["name"]])
+          table[,i] <<- factor(table[,c["name"]])
           
         } else if(c["type"] == "logical") {
-          table[,c["name"]] <<- as.logical(table[,c["name"]])
+          table[,i] <<- as.logical(table[,c["name"]])
           
         } else if(c["type"] == "character") {
           
           # Casting (complex way to avoid warning if NAs in table), 
           # as the simple 'as.numeric(table[,c["name"]])' not possible
-          tmp <- table[,c["name"]]
-          tmp[table[,c["name"]] == "NA"] <- NA
-          tmp[table[,c["name"]] == "character(0)"] <- ""
+          tmp <- table[,i]
+          tmp[table[,i] == "NA"] <- NA
+          tmp[table[,i] == "character(0)"] <- ""
           
-          table[,c["name"]] <<- as.character(tmp)
+          table[,i] <<- as.character(tmp)
           
         } else {
           stop("Column definition type '",c["type"],"' is not defined.")
@@ -406,7 +408,6 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
   for(a in names(xmlItem.attrs)) {
     attributes(table)[[a]] <- xmlItem.attrs[a]
   }
-  
   
   # Return table ----------------------------------------------------------------------------------
   return(table)
@@ -660,7 +661,12 @@ xmlReadData_to_list <- function(xmlItem){
 				entry <- ifelse(xmlName(param)=="list",
 						xmlAttrs(param)[["name"]],
 						xmlName(param))
-				args[[entry]] <- xmlReadData_to_list(param)
+				if(xmlName(param)=="list"){
+					args[[entry]] <- xmlReadData_list(param)
+				}else{
+					args[[entry]] <- xmlReadData_to_list(param)
+					
+				}
 			}
 		}else{
 			if(xmlName(param)=="image"){

@@ -32,7 +32,7 @@
 #' XML files or any other file format. Therefore, it is used as unit testing system in the RTest 
 #' package, which itself implements the functionalities to use XML-based test case definitions. 
 #'
-#' @author Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
+#' @author Sebastian Wolf \email{sebastian@@mail-wolf.de}
 #' 
 #' @docType package
 #' 
