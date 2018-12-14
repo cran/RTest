@@ -30,6 +30,7 @@ export(
   "xmlFromList"								  ,
   
   "test_execution"                            ,
+  "test_returnValue_any"                      ,
   "test_returnValue_variable"                 ,
   "test_returnValue_vector_elementbyelement"  ,
   "test_returnValue_data.frame_cellbycell"    ,
@@ -45,7 +46,17 @@ export(
   "normalizeDate"                             ,
   "htmlify_string"                            ,
   
-  "test_fun"
+  "test_fun"								  ,
+  "arguments_creator"						  ,
+  "get_existence_of_fun"					  ,
+  
+  "example_data_frame"						  ,
+  "example_image"							  ,
+  "example_list"							  ,
+  "example_vector"							  ,
+  "example_variable"						  ,
+  
+  "RTest.execute"					  
 )
 
 
@@ -58,11 +69,14 @@ import(
   "base64"                                   ,
   "jsonlite"                                 ,
   "methods"								     ,
-  "stringr"
+  "stringr"								     
 )
 
 importFrom(
 	"stringr","str_extract")
+	
+importFrom(
+	"magrittr","%>%")
 
 importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
              "tar"
@@ -93,6 +107,7 @@ exportMethods(
   # RTestCase -------------------------------------------------------------------------------------
   "show"       								 ,       
   "test"									 ,               
+  "generic"									 ,               
   
   # Test Adapter
   "test.RTest.test_returnValue_data.frame_cellbycell",

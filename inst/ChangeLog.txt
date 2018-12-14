@@ -8,6 +8,22 @@
 #                                                                                                 #
 ###################################################################################################
 
+# version 1.2.2 (2018-Dec-10) #######################################
+
+- wolfs25 Added a "generic" test-adapter that can be
+   used for people, who do not want to write
+   test adapters
+
+# version 1.2.1 (2018-Dec-09) #################################
+
+- wolfs25 Made RTest compatible to CRAN regulations and
+   added a way better vignette
+
+# version 1.2.0 (2018-Dec-03) ##################################
+
+- wolfs25: Fixed xml_readData_data.frame and xml_writeData_data.frame
+- wolfs25: Changed Image comparison to use magick instead of system("compare")
+
 # Version 1.1.10.0 (2018-Nov-20) ##################################################################
 
 - wolfs25 Cleaned comparison inside tables to show the right reference type (was defect and

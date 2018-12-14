@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RTestCase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../xsd/RTest.xsd">
+	<ID>RTest_TC-generic</ID>
+	<synopsis>
+		<version>01</version>
+		<author>Sebastian Wolf</author>
+		<short-description>RTest Template TC for generic test-adapter
+		</short-description>
+		<description>
+    <![CDATA[
+    A test case without a test adapter
+    ]]>
+		</description>
+		<creation-date>2018-12-11</creation-date>
+		<change-history>
+			<change author="Sebastian Wolf" date="2018-12-11">Initial Version
+      </change>
+		</change-history>
+	</synopsis>
+	<input-data>
+		<data.frame name="test01">
+			<col-defs>
+				<coldef name="x" type="numeric" />
+				<coldef name="y" type="numeric" />
+			</col-defs>
+			<row>
+				<cell>1</cell>
+				<cell>2</cell>
+			</row>
+			<row>
+				<cell>1</cell>
+				<cell>2</cell>
+			</row>
+		</data.frame>
+	</input-data>
+	<tests>
+		<RTest>
+			<example_data_frame test-desc="Test data.frame">
+				<params>
+					<RTestData_input_data param="data" name="test01" />
+					<mult value="1" type="numeric" />
+				</params>
+				<reference>
+					<col-defs>
+						<coldef name="x" type="numeric" />
+						<coldef name="y" type="numeric" />
+						<coldef name="sum" type="numeric" />
+					</col-defs>
+					<row>
+						<cell>1</cell>
+						<cell>2</cell>
+						<cell>3</cell>
+					</row>
+					<row>
+						<cell>1</cell>
+						<cell>2</cell>
+						<cell>3</cell>
+					</row>
+				</reference>
+				<testspec>
+					<execution execution-type="silent" />
+					<return-value compare-type="equal" diff-type="absolute"
+						tolerance="0.001" />
+				</testspec>
+			</example_data_frame>
+		</RTest>
+		<RTest>
+			<example_image test-desc="Compare an image">
+				<params>
+					<name value="my_image.png" />
+				</params>
+				<reference type="character" exec_value="TRUE"
+					value="list.files(find.package('RTest'),recursive = T,pattern='Roche_Logo',full.names=T)[1]"
+					image="TRUE" />
+				<testspec>
+					<execution execution-type="silent" />
+				</testspec>
+			</example_image>
+		</RTest>
+		<RTest>
+			<example_list>
+				<params>
+					<name_1 value="myname" type="character" />
+					<value_2 value="4" type="numeric" />
+
+				</params>
+				<reference>
+					<variable value="VALUE1" name="myname" />
+					<variable value="4" name="NAME2" type="numeric" />
+					<data.frame name="data.frame">
+						<col-defs>
+							<coldef name="x" type="numeric" />
+							<coldef name="y" type="numeric" />
+						</col-defs>
+						<row name="1">
+							<cell>1</cell>
+							<cell>1</cell>
+						</row>
+						<row name="2">
+							<cell>2</cell>
+							<cell>2</cell>
+						</row>
+					</data.frame>
+				</reference>
+				<testspec>
+					<execution execution-type="silent" />
+				</testspec>
+			</example_list>
+		</RTest>
+		<RTest>
+			<example_vector test-desc="Test vector example">
+				<params>
+					<rep value="4" type="numeric" />
+				</params>
+				<reference>
+					<element>RTest</element>
+					<element>RTest</element>
+					<element>RTest</element>
+					<element>RTest</element>
+				</reference>
+				<testspec>
+					<execution execution-type="silent" />
+				</testspec>
+			</example_vector>
+		</RTest>
+		<RTest>
+			<example_variable test-desc="Test relative difference">
+				<params>
+					<x value="1" type="numeric" />
+					<y value="1.2" type="numeric" />
+				</params>
+				<reference value="-0.2" type="numeric" />
+				<testspec>
+					<execution execution-type="silent" />
+				</testspec>
+			</example_variable>
+		</RTest>
+	</tests>
+</RTestCase>

@@ -9,7 +9,64 @@
 #                                                                                                 #
 ###################################################################################################
 
-
+#' Function to generally execute a Test Case collection
+#' 
+#' @param testcase.directory (\code{character}) Location of the Test Case XML files
+#' @param f.pattern (\code{character}) An additional pattern to just search
+#' 	for specific files with certain names
+#' @param project.name (\code{character}) Name of the project mentioned in all
+#'   cover pages
+#' @param project.details (\code{character}) Description of the project
+#' @param project.tester (\code{character}) Name of the Test executer
+#' @param report.file (\code{character}) Output file where to store the
+#'   report
+#' @param ... Additional arguments handed over to the \link{exec,RTestCollection-method} 
+#' 	method
+#' 
+#' @return No return value, but the command line output will show where to fund the
+#'   report. Using the additional argument \code{open=TRUE} will open the report
+#'   directly after execution
+#' 
+#' @examples 
+#' 
+#' RTest::RTest.execute(
+#'  testcase.directory = list.dirs(find.package('RTest'),recursive=TRUE) %>% 
+#' 				grep(pattern="xml-templates",value=TRUE),
+#' 	open=FALSE,
+#'  f.pattern = "RTest_TC-generic.xml"
+#' )
+#' 
+#' @export
+#' @author Sebastian Wolf \email{sebastian@@mail-wolf.de}
+RTest.execute <- function(
+		testcase.directory = list.dirs(find.package("RTest"),recursive=T) %>% 
+				grep(pattern="xml-templates",value=T),
+		f.pattern = "*.xml",
+		project.name = "RTest Execution",
+		project.details = "Example test exectuion",
+		project.tester = "Example tester",
+		report.file =  tempfile(fileext=".html"),
+		...
+){
+	options("RTest_verbose" = TRUE)
+	
+    # Create test collection
+	testCollection <- new(
+			"RTestCollection", 
+			project.name    = project.name, 
+			project.details = project.details,
+			tester          = project.tester,
+			test.start      = format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
+	
+    # Import TCs
+	testCollection <- importTCsFromDir(testCollection,
+			xml.dPath = testcase.directory,
+			f.pattern	= f.pattern)
+	
+    # Execute test cases
+	testCollection <- exec(testCollection, out.fPath = report.file, ...)
+	
+}
 
 # RTest.cat #######################################################################################
 

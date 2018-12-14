@@ -38,6 +38,14 @@
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
+		<xs:attribute name="exec_value">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="TRUE"/>
+					<xs:enumeration value="FALSE"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="RTestData_vector">
 		<xs:annotation>
@@ -495,33 +503,201 @@
 							<xs:element name="RTest" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="funct_01">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="params">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="mult" type="RTestData_variable"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="reference" type="RTestData_data.frame"/>
-													<xs:element name="testspec">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="execution" type="RTestTest_execution"/>
-																<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
-																<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-												<xs:attribute name="test-desc" type="xs:string"/>
-												<xs:attribute name="exec-res-id" type="xs:string"/>
-												<xs:attribute name="spec-id" type="xs:string"/>
-												<xs:attribute name="risk-id" type="xs:string"/>
-											</xs:complexType>
-										</xs:element>
+										<xs:choice maxOccurs="unbounded">
+											<xs:element name="funct_02">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element ref="RTestData_input_data"/>
+																	<xs:element name="mult" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_data.frame"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="funct_01">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="mult" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_data.frame"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="example_data_frame">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element ref="RTestData_input_data"/>
+																	<xs:element name="mult" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_data.frame"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="example_image">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="name" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_image"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="example_list">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="name_1" type="RTestData_variable"/>
+																	<xs:element name="value_2" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_list"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_list_nodebynode" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="example_vector">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="rep" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_vector"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_vector_elementbyelement" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="example_variable">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="params">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="x" type="RTestData_variable"/>
+																	<xs:element name="y" type="RTestData_variable"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="reference" type="RTestData_variable"/>
+														<xs:element name="testspec">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="execution" type="RTestTest_execution"/>
+																	<xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
+																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="test-desc" type="xs:string"/>
+													<xs:attribute name="exec-res-id" type="xs:string"/>
+													<xs:attribute name="spec-id" type="xs:string"/>
+													<xs:attribute name="risk-id" type="xs:string"/>
+												</xs:complexType>
+											</xs:element>
+										</xs:choice>
 									</xs:sequence>
 									<xs:attribute name="test-desc" type="xs:string"/>
 								</xs:complexType>
@@ -535,4 +711,31 @@
 	<xs:complexType name="RTestTest_manualCheck_file">
 		<xs:attribute name="desc"/>
 	</xs:complexType>
+	<xs:element name="RTestData_input_data">
+		<xs:complexType>
+			<xs:attribute name="param" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>which parameter the value shall go into</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>which input variable to take</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="type">
+				<xs:annotation>
+					<xs:documentation>you can redefine as what kind of value the variable shall be read</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="data.frame"/>
+						<xs:pattern value="variable"/>
+						<xs:pattern value="vector"/>
+						<xs:pattern value="list"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

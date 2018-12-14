@@ -31,21 +31,20 @@ Tests imported Test Cases
 }
 \examples{
 
-location <- find.package("RTest")
-
 testCollection <- new("RTestCollection",
 	project.name    = "RTest Vignette", 
 	project.details = "Example test exectuion",
 	tester          = "Example tester",
 	test.start      = format(Sys.time(), "\%Y-\%m-\%d \%H:\%M:\%S"))
 
-TCDir <- paste0(location,"/xml-templates")
+TCDir <- list.dirs(find.package("RTest"),recursive = TRUE) \%>\% 
+   grep(pattern = "xml-templates", value = TRUE)
 
 message("Test Adapter being used is defined in Function")
 message("test.RTest.test_returnValue_data.frame_cellbycell")
 
-testCollection <- importTCsFromDir(testCollection,
-	xml.dPath = TCDir)
+testCollection <- RTest::importTCsFromDir(testCollection,
+		xml.dPath = TCDir,f.pattern	= "RTest_TC-01.xml")
 
 testCollection <- exec(testCollection)
 

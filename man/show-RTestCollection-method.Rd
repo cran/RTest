@@ -25,7 +25,8 @@ testCollection <- new("RTestCollection",
 show(testCollection)
 
 testCollection <- importTCsFromDir(testCollection,
-	xml.dPath = paste0(location,"/xml-templates"))
+	xml.dPath = paste0(location,"/xml-templates")
+)
 
 # Now one test case shall be imported
 show(testCollection)

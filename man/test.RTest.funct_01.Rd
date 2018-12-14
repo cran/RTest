@@ -6,6 +6,14 @@
 \title{Test Function For Testing Function 'RTest::test_returnValue_data.frame_cellbycell'}
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object}
+
+\item{inputData}{(\code{list}) List of input values}
+
+\item{execCache}{(\code{list}) list of already executed tests and their return values}
+
+\item{xmlDef}{(\code{xmlNode}) xmlNode of the Test case}
+
+\item{...}{additional values can be given from \code{execAdapter}}
 }
 \value{
 (\code{list})

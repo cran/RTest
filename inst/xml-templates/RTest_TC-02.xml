@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RTestCase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../xsd/RTest.xsd">
-	<ID>RTest_TC-01</ID>
+	<ID>RTest_TC-02</ID>
 	<synopsis>
 		<version>01</version>
-		<author>Matthias Pfeifer</author>
+		<author>Sebastian Wolf</author>
 		<short-description>RTest Template TC</short-description>
 		<description>
     <![CDATA[
-    Extended Description of the test case allowing also <some><special>/characters
+    A test case without a test adapter
     ]]>
 		</description>
 		<creation-date>2016-01-25</creation-date>
@@ -35,8 +35,9 @@
 	</input-data>
 	<tests>
 		<RTest test-desc="First test for Pkg_1">
-			<funct_01 test-desc="First test of funct_01">
+			<funct_02 test-desc="First test of funct_01">
 				<params>
+					<RTestData_input_data param="data" name="test01" />
 				   <mult value = "1" type="numeric" />
 				</params>
 				<reference>
@@ -60,8 +61,8 @@
 					<execution execution-type="silent" />
 					<return-value compare-type="equal" diff-type="absolute" tolerance="0.001" />
 				</testspec>
-			</funct_01>
+			</funct_02>
 		</RTest>
-		
+	
 	</tests>
 </RTestCase>

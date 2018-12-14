@@ -931,6 +931,7 @@ setMethod("test",
               
               # Open and start testthat reporter
               reporter     <- ListReporter$new()
+			  
               set_reporter(reporter)
               reporter$start_reporter()
               
@@ -939,6 +940,7 @@ setMethod("test",
               
               # Execute the wrapper function
               tmpExec <- NULL
+			  
               with_reporter(reporter, 
                 tmpExec <- execAdapter(object, tf.pkg, tf.pkg.i, tf.func, tf.func.i, 
                   out.fPathPre = out.fPathPre, ...)
@@ -948,7 +950,8 @@ setMethod("test",
               
               tf.test[["cache"]]     <- tmpExec[["result"]]
               tf.test[["execresid"]] <- tmpExec[["execresid"]]
-              
+              tf.test[["test-func"]] <- tmpExec[["function_name"]]
+
 			  `%:::%` = function(pkg, fun) get(fun, envir = asNamespace(pkg),
 						  inherits = FALSE)
 			  end_context <-  "testthat" %:::% "end_context"
@@ -1080,8 +1083,14 @@ setMethod("execAdapter",
     
     # Check test function -------------------------------------------------------------------------
     
-    if(!exists(tf.testFunc))
-      stop("No default test function '",tf.testFunc,"' defined for '",class(object),"'!")
+	use_generic <- FALSE
+			
+    if(!exists(tf.testFunc)){
+		message("Using generic test interpreter function")
+		use_generic <- TRUE		
+	}
+		
+    #   stop("No default test function '",tf.testFunc,"' defined for '",class(object),"'!")
     
     
     # Get XML definition --------------------------------------------------------------------------
@@ -1106,10 +1115,18 @@ setMethod("execAdapter",
     
     # Execute test function -----------------------------------------------------------------------
     # Call the test function and pass the TC's input data and current XML function definition
-    tf.result <- do.call(tf.testFunc, 
-      list(object, object@input.data, tf.execCache, tf.xmlItem, cacheid = tf.cacheid, 
-        paste0(out.fPathPre,"_",tf.cacheid), ...))
     
+    if(use_generic){
+		tf.testFunc <- "'generic' test function"
+		tf.result <- do.call("generic",
+				list(object, object@input.data, tf.execCache, tf.xmlItem, cacheid = tf.cacheid, 
+						paste0(out.fPathPre,"_",tf.cacheid), package = tf.pkg, ...))
+	}else{
+	    tf.result <- do.call(tf.testFunc, 
+	      list(object, object@input.data, tf.execCache, tf.xmlItem, cacheid = tf.cacheid, 
+	        paste0(out.fPathPre,"_",tf.cacheid), ...))
+	    
+	}
     
     # Return test function result -----------------------------------------------------------------  
     # The returned value will be stored in the cache for this execution
@@ -1122,6 +1139,8 @@ setMethod("execAdapter",
       if("exec-res-id" %in% names(xmlAttrs(tf.xmlItem))) xmlAttrs(tf.xmlItem)[["exec-res-id"]]
       else                                               NA
     
+	tf.return$function_name <- tf.testFunc
+	
     return(tf.return)
   }
 )

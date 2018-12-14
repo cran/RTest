@@ -177,7 +177,9 @@ test_execution <- function(what, args, xmlTestSpec, ...) {
 #' 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 test_returnValue_variable <- function(result, reference, xmlTestSpec, add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   
@@ -360,7 +362,9 @@ test_returnValue_variable <- function(result, reference, xmlTestSpec, add.desc =
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestSpec,
 		add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   
@@ -609,7 +613,9 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
 #' 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
 test_returnValue_data.frame_cellbycell <- function(result, reference, xmlTestSpec, add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   RTest.cat(" data.frame: ",dim(result)[1]," x ",dim(result)[2]," ... ")
@@ -1017,7 +1023,9 @@ test_returnValue_data.frame_cellbycell <- function(result, reference, xmlTestSpe
 #' 
 #' @author   Sebastian Wolf \email{sebastian.wolf.sw1@@roche.com}
 test_returnValue_data.frame_shape <- function(result, reference, xmlTestSpec, add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   RTest.cat(" data.frame: ",dim(result)[1]," x ",dim(result)[2]," ... ")
@@ -1213,7 +1221,9 @@ test_returnValue_data.frame_shape <- function(result, reference, xmlTestSpec, ad
 #' 
 #' @author   Sergej Potapov \email{sergej.potapov@@roche.com}
 test_returnValue_list_nodebynode <- function(result, reference, xmlTestSpec, add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   # Global settings of the test -------------------------------------------------------------------
@@ -1421,7 +1431,9 @@ test_returnValue_list_nodebynode <- function(result, reference, xmlTestSpec, add
 test_manualCheck_file <- function(result, reference, xmlTestSpec, add.desc = NULL,
     openrecexp = NULL, openrecexp.exec = FALSE) 
 {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   # Check if provided reference is a file or just a description
@@ -1667,7 +1679,9 @@ test_manualCheck_confirmWindow <- function(openrecexp = NULL, expectedTxt = NULL
 #' @importFrom magick image_compare image_read image_write
 #' @author   Sebastian Wolf \email{sebastian.wolf.sw1@@roche.com}
 test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NULL) {
-  
+	if(is.null(xmlTestSpec)){
+		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
+	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   # Global settings of the test -------------------------------------------------------------------
@@ -1815,4 +1829,56 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
             stop("Compare type '", test.compareType,"' currently not implemented.")
         )
       })  
+}
+
+
+#' Generically compare two values with RTest
+#' 
+#' This function compares two value by a \code{test_returnValue_...} function
+#' that fits the class of the \code{reference} input parameter.
+#' 
+#' @param result (\code{any}) Any value of type character, numeric, data.frame or list
+#' 	(image links do not work!)
+#' @param reference (\code{any}) Any value of type character, numeric, data.frame or list
+#' 	(image links do not work!)
+#' @param xmlTestSpec (\code{XMLNode}) An XMLNode of type \code{RTest_test_returnValue_...}
+#' 
+#' @return The function will not return anything but call \code{testthat} functions 
+#'    creating outputs in the reporter
+#' 
+#' @export 
+#' 
+#' @author Sebastian Wolf \email{sebastian@@mail-wolf.de}
+test_returnValue_any <- function(result,reference,xmlTestSpec){
+	### ------ Check class of values (result, reference) ------ ######			
+	
+	test_returnValue_variable(
+			class(result),
+			class(reference),
+			NULL,
+			add.desc="Checking output class and reference class.")
+	
+	### ------ Compare values ------ ######	
+	
+	if(class(reference)=="data.frame"){
+		test_returnValue_data.frame_cellbycell(
+				result,
+				reference,
+				xmlTestSpec = xmlTestSpec)
+	}else if(class(reference)=="list"){
+		test_returnValue_list_nodebynode(
+				result,
+				reference,
+				xmlTestSpec = xmlTestSpec)
+	}else if(length(reference)>1){
+		test_returnValue_vector_elementbyelement(
+				result = result,
+				reference = reference,
+				xmlTestSpec = xmlTestSpec)
+	}else{
+		test_returnValue_variable(
+				result,
+				reference,
+				xmlTestSpec = xmlTestSpec)
+	}
 }
