@@ -84,8 +84,7 @@ xmlReadData_variable <- function(xmlItem) {
 #'			)
 #' item <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 #' value <- RTest::xmlReadData_image(item)
-#' print("The Roche Logo opens")
-#' system(paste0("open ",value$address))
+#' stopifnot(grepl("png",value$address))
 #' 
 #' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
@@ -105,40 +104,18 @@ xmlReadData_image <- function(xmlItem) {
 	# Get value of variable
 	variable.value <- xmlAttrs(xmlItem)[["value"]]
 	
+	if(!file.exists(variable.value)){
+		stop(paste0("Image '",variable.value,"' cannot be found."))
+	}
 	# Cast the type variable
 	variable.value <-  as.character(variable.value)
 	
-	imageMagick <- 
-				if(Sys.which("magick")!=""){
-					"magick "
-				}else{
-					if(Sys.which("convert")==""){
-						stop("No ImageMagick installed. Please use \n
-										sudo apt-get install imagemagick libmagickcore-dev libmagickwand-dev libmagic-dev \n
-										on Linux or download ImageMagick for Windows.
-										")
-					}else{
-									""
-								}
-				}
+	tf <- paste0(tempfile(fileext=".png"))
 	
-	tf <- paste0(tempfile(),".png")
+	image_m <- magick::image_convert( magick::image_read(variable.value),format="png")
 	
-	# Convert the input string into a PNG image
-	if(Sys.info()["sysname"]=="Windows"){
-		shell(paste0(imageMagick,"convert \"",variable.value,"\" \"",tf,"\""))
-	}else{
-		system(paste0(imageMagick,"convert \"",variable.value,"\" \"",tf,"\""))
-	}
-	
-	if(!file.exists(tf)){
-		
-		if(Sys.info()["sysname"]=="Windows"){
-			shell(paste0(imageMagick,"convert \"",file.path(getwd(),variable.value),"\" \"",tf,"\""))
-		}else{
-			system(paste0(imageMagick,"convert \"",file.path(getwd(),variable.value),"\" \"",tf,"\""))
-		}
-	}
+	image_write(image_m, tf)
+
 	
 	# Return the image link
 	return(
@@ -252,7 +229,6 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
   if(is.null(xmlItem))
     return(NULL)
   
-  
   # Filter specific elements of the XML item ------------------------------------------------------
   
   # Column definitions
@@ -265,7 +241,6 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
   # Table attributes
   xmlItem.attrs   <- xmlAttrs(xmlItem)
   
-  
   # Read XML contents -----------------------------------------------------------------------------
   
   # Read column definitions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -274,6 +249,8 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
         xmlItem.coldefs,
         function(xmlDefs) { xmlApply(xmlDefs, xmlAttrs) },
         simplify = FALSE, USE.NAMES = TRUE), recursive = FALSE) 
+
+  table.coldefs <- Filter(Negate(is.null),  table.coldefs)
 
   # Read data table contents: iterate trhough xmlItems to read row and cell entries   - - - - - - -
   if(!is.null(xmlItem.rows)) {
@@ -287,21 +264,25 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
             xmlSApply(
               xmlRow, 
               function(xmlCell) {     # Parse cells
-                cell        <- c(xmlValue(xmlCell))
-                names(cell) <- xmlAttrs(xmlCell)[["ID"]]
-				if(na_to_none){					
-					if(cell=="NA"){
-						return("")
+				if(xmlValue(xmlCell)!="\\n"){
+					
+	                cell        <- c(xmlValue(xmlCell))
+	                names(cell) <- xmlAttrs(xmlCell)[["ID"]]
+					if(na_to_none){					
+						if(cell=="NA"){
+							return("")
+						}
 					}
+	                return(cell)
 				}
-                return(cell)
               },
               USE.NAMES = TRUE
             )
+		  row <- Filter(Negate(is.null),  row)
           return(t(row))
         }
       )
-    
+	
     table.matrix <- do.call(rbind, table.rows)
     
     
@@ -330,18 +311,25 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
     # Define table column names   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     table.defs.colnames <- 
       sapply(table.coldefs, function(c) if("name" %in% names(c) ) c["name"] else NA)
-    
+	
+
     # If not all column names have been specified, fill up with string "cellXX", where XX is cell no.
-    if(length(table.defs.colnames) < dim(table.matrix)[2])
-      table.defs.colnames <- c(table.defs.colnames, 
-        paste0("cell", (length(table.defs.colnames)+1):dim(table.matrix)[2]))
+    #if(length(table.defs.colnames) < dim(table.matrix)[2])
+    #  table.defs.colnames <- c(table.defs.colnames, 
+    #    paste0("cell", (length(table.defs.colnames)+1):dim(table.matrix)[2]))
     
     # Set column names to numeric entry, if it has not been specified by the name flag
     table.defs.colnames[is.na(table.defs.colnames)] <- 
       (1:dim(table.matrix)[2])[is.na(table.defs.colnames)]
-    
-    
-    
+
+    table.coldefs <- lapply(1:length(table.coldefs),function(i){
+				value <- table.coldefs[[i]]
+				if(is.na(value["name"])){
+					value <- c("type"=as.character(value),
+							"name"=as.character(table.defs.colnames[i]))
+				}
+				value
+			})
     # Create table ----------------------------------------------------------------------------------
     
     # Create data frame object

@@ -4,7 +4,7 @@
 \alias{test_execution}
 \title{Tests Silent Execution of an Function}
 \usage{
-test_execution(what, args, xmlTestSpec, ...)
+test_execution(what, args, xmlTestSpec = NULL, ...)
 }
 \arguments{
 \item{what, args}{Parameters for execution of the test function 
@@ -47,7 +47,6 @@ test_execution(
  ),error=function(e){
     stopifnot(grepl("produced warnings",e))
  })
-
 }
 \seealso{
 \code{\link{do.call}}

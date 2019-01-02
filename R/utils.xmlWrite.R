@@ -622,15 +622,14 @@ xmlWriteData_variable <- function(elemname = "variable", data, name = NULL, prin
   
   stopifnot(class(data) %in% c("integer", "numeric", "character", "logical", "NULL"))
   
-  
-  # Generate XML ----------------------------------------------------------------------------------
+ # Generate XML ----------------------------------------------------------------------------------
   if(is.null(name)){
     xml <- paste0("<",elemname," value=\"", 
-        if(is.numeric(data)) format(data, digits = 22) else data,
+        if(is.numeric(data)) format(as.character(data),digits=22) else data,
          "\" type=\"", data.class, "\"/>")
   } else {
     xml <- paste0("<",elemname," value=\"", 
-        if(is.numeric(data)) format(data, digits = 22) else data,
+        if(is.numeric(data)) format(as.character(data),digits=22)  else data,
         "\" type=\"", data.class,"\" name=\"",name,"\"/>")
   }
   
@@ -671,23 +670,24 @@ xmlWriteData_list <- function(elemname = "list", data, name = NULL, printXML = T
   for(i in 1:length(data)){
 	  listelement <- data[[i]]
 	  listelementname <- names(data)[i]
-			  
-	  if(length(listelement)>0){
+
+	  if(length(listelement)>1 || class(listelement)=="list"){
 		  if(class(listelement)=="list"){
-			  xml <- paste0(xml,xmlWriteData_list(
+			  xml <- paste0(xml,"\n",
+					  xmlWriteData_list(
 							  data = listelement,
 							  name = listelementname,
 							  printXML = F
 							  ))
 		  }else if(class(listelement)=="data.frame"){
-			  xml <- paste0(xml,
+			  xml <- paste0(xml,"\n",
 					  paste(xmlWriteData_data.frame(
 							  name=listelementname,
 							  data = listelement,
 							  printXML = F
 					  ),collapse="\n"))
 	  	  }else{
-			  xml <- paste0(xml,					  
+			  xml <- paste0(xml,"\n",					  
 					  paste(xmlWriteData_vector(
 							  name=listelementname,
 							  data = listelement,
@@ -695,8 +695,7 @@ xmlWriteData_list <- function(elemname = "list", data, name = NULL, printXML = T
 					  ),collapse = "\n"))
 		  }
 	  }else{
-		  
-		  xml <- paste0(xml,xmlWriteData_variable(
+		  xml <- paste0(xml,"\n",xmlWriteData_variable(
 						  name=listelementname,
 						  data = listelement,
 						  printXML = F
@@ -834,7 +833,7 @@ xmlWriteTest_vector_elementbyelement <- function(elemname = "return-value",
       if(length(test) != 1) {
         stopifnot(c %in% names(test))
         if(test[c] != test0)
-          c.attrs <- c(c.attrs, paste0("desc = \"",test[c],"\""))
+          c.attrs <- c(c.attrs, paste0("diff-type=\"",test[c],"\""))
       }
       
       if(length(tolerance) != 1) {
@@ -893,15 +892,16 @@ xmlWriteTest_data.frame_cellbycell <- function(elemname = "test",
     stopifnot(class(data) == "data.frame")
   
   tolerance0 <- if(length(tolerance) > 1) tolerance[1] else tolerance
-  
-  
+  diff_type0 <- if(length(diff_type) > 1) diff_type[1] else diff_type
+
+  stopifnot(length(compare_type)==1)
   # Generate XML ----------------------------------------------------------------------------------
   
   xml <- c()
   
   xml <- c(xml, paste0("<",elemname,
           " desc=\"",desc,
-          "\" diff-type=\"",diff_type,
+          "\" diff-type=\"",diff_type0,
           "\" tolerance=\"",tolerance0,
           "\" compare-type=\"",compare_type,"\"",
           ifelse(is.null(data), " /", ""),">"))
@@ -915,11 +915,11 @@ xmlWriteTest_data.frame_cellbycell <- function(elemname = "test",
       
       #c.attrs <- c(c.attrs, paste0("type = \"",class(data[,c]),"\""))
       
-      if(length(test) != 1) {
-        stopifnot(c %in% names(test))
-		test0 <- if(length(test) > 1) test[1] else test
-        if(test[c] != test0)
-          c.attrs <- c(c.attrs, paste0("test = \"",test[c],"\""))
+      if(length(diff_type) != 1) {
+        stopifnot(c %in% names(diff_type))
+		diff_type0 <- if(length(diff_type) > 1) diff_type[1] else diff_type
+        if(diff_type[c] != diff_type0)
+          c.attrs <- c(c.attrs, paste0("diff-type = \"",diff_type[c],"\""))
       }
       
       if(length(tolerance) != 1) {
@@ -960,7 +960,8 @@ xmlWriteTest_data.frame_cellbycell <- function(elemname = "test",
 #' 
 #' @export 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
-xmlWriteTest_list_nodebynode <- function(elemname = "return-value", 
+xmlWriteTest_list_nodebynode <- function(
+		elemname = "return-value", 
     testname = "list_nodebynode", data = NULL, 
     test = "absolute", tolerance = 0, printXML = TRUE) 
 {
@@ -995,7 +996,7 @@ xmlWriteTest_list_nodebynode <- function(elemname = "return-value",
       if(length(test) != 1) {
         stopifnot(c %in% names(test))
         if(test[c] != test0)
-          c.attrs <- c(c.attrs, paste0("desc = \"",test[c],"\""))
+          c.attrs <- c(c.attrs, paste0("diff-type=\"",test[c],"\""))
       }
       
       if(length(tolerance) != 1) {

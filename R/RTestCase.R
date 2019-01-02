@@ -96,7 +96,7 @@ setClass(
 #' 
 #' @examples 
 #' library(RTest)
-# Define the params and TestSpec
+#' 
 #' xml.root <- XML::newXMLNode("func01")
 #' RTest::xmlFromList(xml.root,
 #' 		list(
@@ -132,7 +132,7 @@ setClass(
 #' 		"pgk-iter"       = "1",
 #' 		"func"           = "funct_01",
 #' 		"func-iter"      = "1",
-#' 		"test-code"      = "RTest::funct_01",
+#' 		"test-code"      = "RTest::test_fun",
 #' 		"test-adapter"   = "RTestCase",
 #' 		"test-func"      = "test.RTest.funct_01",
 #' 		"pkg-desc"       = "no package desc",
@@ -211,10 +211,9 @@ RTestCase <- function(
 		# Open and read xml ---------------------------------------------------------------------------
 		
 		#xml.doc  <- xmlTreeParse(xml.fPath, getDTD = F)
-		xml.doc  <- xmlTreeParse(xml.fPath, getDTD = F, 
-				handlers=list("comment"=function(x,...){NULL}), asTree = TRUE)
+		xml.doc  <- xmlTreeParse(xml.fPath, getDTD = F,
+				       handlers = list("comment"=function(x,...){NULL}), asTree = TRUE)
 		xml.root <- xmlRoot(xml.doc)
-		
 		
 		# Initialize slots ----------------------------------------------------------------------------
 		
@@ -240,35 +239,49 @@ RTestCase <- function(
 								), collapse = ", "), 
 				
 				"short-description"  = 
-						if(!is.null(xml.root[["synopsis"]][["short-description"]])) 
+						if(!is.null(xml.root[["synopsis"]][["short-description"]])){
 							xmlValue(xml.root[["synopsis"]][["short-description"]])
-						else "",
+							
+						}else{
+							""
+						},
 				
 				"description"       = 
-						if(!is.null(xml.root[["synopsis"]][["description"]])) 
+						if(!is.null(xml.root[["synopsis"]][["description"]])){
 							xmlValue(xml.root[["synopsis"]][["description"]])
-						else "",
+						}
+						else{
+							""
+						} ,
 				
 				"label"       = 
-						if(!is.null(xml.root[["synopsis"]][["label"]])) 
+						if(!is.null(xml.root[["synopsis"]][["label"]])) {
 							xmlValue(xml.root[["synopsis"]][["label"]])
-						else "",
+							
+						}
+						else{""},
 				
 				"creation-date"     = 
-						if(!is.null(xml.root[["synopsis"]][["creation-date"]])) 
+						if(!is.null(xml.root[["synopsis"]][["creation-date"]])) {
+							
 							xmlValue(xml.root[["synopsis"]][["creation-date"]])
-						else "",
+						}else{""},
 				
 				"change-history"    = 
-						lapply(
-								xmlElementsByTagName(xml.root[["synopsis"]][["change-history"]], "change"), 
-								function(e) 
-									c(
-											author = xmlAttrs(e)[["author"]], 
-											date   = xmlAttrs(e)[["date"]],
-											change =  xmlValue(e)
-									)
-						)
+						if(!is.null(xml.root[["synopsis"]][["change-history"]])){
+							
+							lapply(
+									xmlElementsByTagName(xml.root[["synopsis"]][["change-history"]], "change"), 
+									function(e) 
+										c(
+												author = xmlAttrs(e)[["author"]], 
+												date   = xmlAttrs(e)[["date"]],
+												change =  xmlValue(e)
+										)
+							)
+						}else{
+							list()
+						}
 		)
 		
 		# Set Input data
@@ -972,10 +985,14 @@ setMethod("test",
 #              message("\n----------\n")
 #              print(str(reporter$results$as_list()))
 #              message("\n----------\n")
-              
-              reporter.failed <- sum(sapply(reporter$results$as_list(), 
+			  if(length(reporter$results$as_list())>0){
+					  
+				reporter.failed <- sum(sapply(reporter$results$as_list(), 
                   function(repores) length(which(sapply(repores$results, 
                           function(e) !"expectation_success" %in% class(e))))))
+				  }else{
+				  reporter.failed <- 0
+			  }
               
               
 #              stop()
@@ -1095,10 +1112,8 @@ setMethod("execAdapter",
     
     # Get XML definition --------------------------------------------------------------------------
     # Use the passed xpath to get XML definition of the test item
-    tf.xmlItem <- tryCatch({ 
-				suppressWarnings(getNodeSet(object@xml.root, path = tf.xpath)[[1]]) },
-      # Try to access the XML definition and use the return xml node set
-      
+        # Try to access the XML definition and use the return xml node set
+    tf.xmlItem <- suppressWarnings(getNodeSet(object@xml.root, path = tf.xpath)[[1]]) 
       
 		# In R-3.4.0 it always produces warnings due to a change in the sturcture functions :(
         # Warnings, trough stop message (be very conservative)
@@ -1107,11 +1122,6 @@ setMethod("execAdapter",
 		#        stop("Warning occured during access of XML test element '",tf.xpath,"'.")
 		#	  },
       
-      # Errors, trough stop message
-      error = function(e) {
-		  
-        stop("Invalid xpath passed to access the XML test element '",tf.xpath,"'.")
-	  })
     
     # Execute test function -----------------------------------------------------------------------
     # Call the test function and pass the TC's input data and current XML function definition
@@ -1197,6 +1207,10 @@ setMethod("execCache",
     # Get index of the current test function
     tf.funcIndex <- which(tf.func == names(tf.tests[[tf.pkg]][[tf.pkg.i]]))
     
+	if(length(tf.funcIndex)<1){
+		stop(paste0("no cache created due to unkown '",tf.func,"'"))
+	}
+	
     # Initialize execution cache
     tf.execCache <- NULL
     
@@ -1468,7 +1482,7 @@ setMethod("getExecDetails.html",
     tc.ID <- getID(object)
     
     
-    if(is.na(object@test.result))
+    if(is.null(object@test.result) || is.na(object@test.result))
       return(c())
     #stop("This test case has not been executed!")
     
@@ -1626,13 +1640,18 @@ setMethod("getExecDetails.html",
                     
                     RTest.cat("Write details for '",tf.pkg,"::",tf.func,"'\n")
                     
-                    tf.exceptions.passed <- sum(sapply(tf.reporter, 
-                        function(repores) length(which(sapply(repores$results, function(e) "expectation_success" %in% class(e))))))
-                    tf.expections.failed <- sum(sapply(tf.reporter, 
-                        function(repores) length(which(sapply(repores$results, function(e) !"expectation_success" %in% class(e))))))
-                    
-                    tf.exceptions <- tf.exceptions.passed + tf.expections.failed
-                    
+					if(tf.nTests>0){
+	                    tf.exceptions.passed <- sum(sapply(tf.reporter, 
+	                        function(repores) length(which(sapply(repores$results, function(e) "expectation_success" %in% class(e))))))
+	                    tf.expections.failed <- sum(sapply(tf.reporter, 
+	                        function(repores) length(which(sapply(repores$results, function(e) !"expectation_success" %in% class(e))))))
+	                    
+	                    tf.exceptions <- tf.exceptions.passed + tf.expections.failed
+	                    
+					}else{
+						tf.exceptions <- tf.expections.failed <-  tf.exceptions.passed  <- 0
+					}
+					
                     tf.status <- if(tf.nTests == 0) "NO-TESTS" else toupper(tf.test$result)
                     
                     tf.desc <- c()
@@ -1738,8 +1757,8 @@ setMethod("getExecDetails.html",
                           
                           i.expec         <- 1
                           i.expec.written <- 1
-                          
-                          lapply(repores$results, function(expec) {
+
+						  lapply(repores$results, function(expec) {
                               out.test <- ""
                               
                               if(i.expec %% 50 == 0) {
@@ -1762,7 +1781,6 @@ setMethod("getExecDetails.html",
                               if(report.onlyFailed == FALSE || 
                                 (report.onlyFailed && expec.status == "FAILED")) 
                               {
-                                
                                 expec.msg <- expec$message  #ifelse(expec$passed, expec$success_msg, expec$failure_msg)
                                 
 #                                message("\n* expec.msg\n")
@@ -1775,8 +1793,7 @@ setMethod("getExecDetails.html",
 #                                message("\n* expec.msg.array\n")
 #                                print(expec.msg.array)
 #                                message("\n***\n")
-#                                browser()
-                                if(length(expec.msg.array) == 1) {
+                                if(length(expec.msg.array) <= 1) {
                                   expec.msg.main <- expec.msg
                                   expec.msg.info <- c(
                                     "Test"        = "Test Expected Behaviour",
@@ -1787,20 +1804,21 @@ setMethod("getExecDetails.html",
                                   expec.msg.main   <- expec.msg.array[1]
                                   
                                   if(length(expec.msg.array) > 2) {
-                                    expec.msg.others <- expec.msg.array[2:(length(expec.msg.array)-1)]
+                                    expec.msg.others <- expec.msg.array[2:(length(expec.msg.array))]
                                   } else {
                                     expec.msg.others <- expec.msg.array[length(expec.msg.array)]
                                   }
 								  `%:::%` = function(pkg, fun) get(fun, envir = asNamespace(pkg),
 											  inherits = FALSE)
 								  fromJSON_string <-  "jsonlite" %:::% "fromJSON_string"
-								  
-                                  if(grepl("^\\{.*\\}$", expec.msg.array[length(expec.msg.array)])) {
-                                    expec.msg.info <- expec.msg.array[length(expec.msg.array)]
+
+								  if(grepl("\\{.*\\}", expec.msg.array[length(expec.msg.array)])) {
+                                    expec.msg.info <- stringr::str_extract(expec.msg.array[length(expec.msg.array)],"\\{.*\\}") 
                                     expec.msg.info <- fromJSON_string(expec.msg.info)
                                     expec.msg.others <- expec.msg.others[1:(length(expec.msg.others)-1)]
                                   } else {
-                                    expec.msg.info <- ""
+                                    expec.msg.info <- c(noinfo="")
+									
                                   }
                                 }
                                 
@@ -1817,7 +1835,7 @@ setMethod("getExecDetails.html",
                                 
                                 expec.msg.info.names <- names(expec.msg.info)
                                 expec.msg.info.length <- length(expec.msg.info)
-                                
+								
                                 if(!identical(expec.info.pre, expec.msg.info.names)) {
                                   
                                   if(i.expec.written > 1) {
@@ -1827,17 +1845,17 @@ setMethod("getExecDetails.html",
                                   out.test <- paste0(out.test, "              <table width=\"100%\" class=\"TCExpecSummary\">")
                                   out.test <- paste0(out.test, "                <tr>")
                                   out.test <- paste0(out.test, "                  <th width=\"25\">#</th>")
-                                  if(expec.msg.info.length > 0) {
-                                    lapply(1:expec.msg.info.length, function(i.info) {
-                                        if(i.info == 1)
-                                          out.test <<- paste0(out.test, "                  <th width=\"200\">",expec.msg.info.names[i.info],"</th>")
-                                        else
-                                          out.test <<- paste0(out.test, "                  <th>",expec.msg.info.names[i.info],"</th>")
-                                      })
+								  if(expec.msg.info.length > 0 && expec.msg.info.names[1]!="noinfo") {
+									  lapply(1:expec.msg.info.length, function(i.info) {
+													  if(i.info == 1)
+														  out.test <<- paste0(out.test, "                  <th width=\"200\">",expec.msg.info.names[i.info],"</th>")
+													  else
+														  out.test <<- paste0(out.test, "                  <th>",expec.msg.info.names[i.info],"</th>")
+											  })
                                     #lapply(expec.msg.info.names, function(info) 
                                     #    paste0(out.test, "                  <th>",info,"</th>"))
                                   } else {
-                                    out.test <- paste0(out.test, "                  <th></th>")  
+                                    out.test <- paste0(out.test, "                  <th>-</th>")  
                                   }
                                   out.test <- paste0(out.test, "                  <th width=\"250\">Info</th>")
                                   out.test <- paste0(out.test, "                  <th width=\"150\">Status</th>")
@@ -1848,7 +1866,7 @@ setMethod("getExecDetails.html",
                                 
                                 out.test <- paste0(out.test, "                <tr>")            
                                 out.test <- paste0(out.test, "                  <td align=\"center\">",i.expec.written,"</td>")
-                                if(expec.msg.info.length > 0) {
+                                if(expec.msg.info.length > 0 && expec.msg.info.names[1]!="noinfo") {
                                   lapply(expec.msg.info, 
                                     function(info)
                                       out.test <<- paste0(out.test, "                  <td align=\"center\">",info,"</td>"))
@@ -1877,7 +1895,7 @@ setMethod("getExecDetails.html",
                                     out.test <- paste0(out.test, "                  <td></td>")
                                   }
                                   out.test <- paste0(out.test, "                  <td class=\"FAILURE-msg\">")
-                                  out.test <- paste0(out.test, "                    ",paste(expec.msg.others, collapse="<br />"))
+                                  out.test <- paste0(out.test, "                    ",paste0(expec.msg.others, collapse="<br/>"))
                                   out.test <- paste0(out.test, "                  </td>")
                                   out.test <- paste0(out.test, "                  <td align=\"center\" class=\"",expec.status,"\"></td>")
                                   out.test <- paste0(out.test, "                </tr>")
@@ -1892,7 +1910,7 @@ setMethod("getExecDetails.html",
                               i.expec <<- i.expec + 1
                               
                             })
-                          
+                          # End of lapply(repores$results)
                           out.append("                </table>")
                           
                           out.append("              </td>")
@@ -2027,14 +2045,18 @@ setMethod("getRTMInfos",
         }
       }
       
-      tf.SpecIDs <- paste(tf.pkg.SpecIDs, collapse = ", ")
-      tf.RiskIDs <- paste(tf.pkg.RiskIDs, collapse = ", ")
+      tf.pkg.SpecIDs <- paste(tf.pkg.SpecIDs, collapse = ", ")
+      tf.pkg.RiskIDs <- paste(tf.pkg.RiskIDs, collapse = ", ")
       
       if(length(test.for) > 1) {
-        tf.SpecIDs <- paste0(tf.pkg,": ",tf.SpecIDs)
-        tf.RiskIDs <- paste0(tf.pkg,": ",tf.RiskIDs)
-      }
+        tf.SpecIDs <- c(tf.SpecIDs,paste0(tf.pkg,": ",tf.pkg.SpecIDs))
+        tf.RiskIDs <- c(tf.RiskIDs,paste0(tf.pkg,": ",tf.pkg.RiskIDs))
+      }else{
+		tf.SpecIDs <- c(tf.SpecIDs,tf.pkg.SpecIDs)
+		tf.RiskIDs <- c(tf.RiskIDs,tf.pkg.RiskIDs)
+	  }
       
+	  
     }
     
     RTM$SpecIDs <- paste(tf.SpecIDs, collapse = "; ")

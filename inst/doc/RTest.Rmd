@@ -5,7 +5,7 @@ output:
 author: "[Sebastian Wolf](mailto:sebastian@mail-wolf.de)"
 date: "16 Apr 2018"
 vignette: >
-  %\VignetteIndexEntry{RTest Vignette}
+  %\VignetteIndexEntry{RTest}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -222,6 +222,7 @@ want to perform this task for our described
 
 ```{r, eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE}
 library(magrittr)
+library(RTest)
 RTest::RTest.execute(
    testcase.directory = list.dirs(find.package('RTest'),recursive=TRUE) %>% 
  				grep(pattern="xml-templates",value=TRUE),

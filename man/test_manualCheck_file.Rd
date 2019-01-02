@@ -4,8 +4,8 @@
 \alias{test_manualCheck_file}
 \title{Creates a manual check via tcl/tk interface of created output file}
 \usage{
-test_manualCheck_file(result, reference, xmlTestSpec, add.desc = NULL,
-  openrecexp = NULL, openrecexp.exec = FALSE)
+test_manualCheck_file(result, reference, xmlTestSpec = NULL,
+  add.desc = NULL, openrecexp = NULL, openrecexp.exec = FALSE)
 }
 \arguments{
 \item{result}{(\code{object}) The result object to be tested.}

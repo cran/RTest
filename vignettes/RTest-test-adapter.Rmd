@@ -1,11 +1,11 @@
 ---
-title: Test Adapter example
+title: RTest -  Test Adapter example
 output:
   pdf_document
 author: "[Sebastian Wolf](mailto:sebastian@mail-wolf.de)"
 date: "16 Apr 2018"
 vignette: >
-  %\VignetteIndexEntry{RTest Vignette}
+  %\VignetteIndexEntry{RTest Test Adapter}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

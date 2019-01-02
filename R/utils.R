@@ -57,8 +57,8 @@ RTest.execute <- function(
 			project.details = project.details,
 			tester          = project.tester,
 			test.start      = format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
-	
-    # Import TCs
+
+	# Import TCs
 	testCollection <- importTCsFromDir(testCollection,
 			xml.dPath = testcase.directory,
 			f.pattern	= f.pattern)
@@ -425,11 +425,15 @@ normalizeDate <- function(
     # Convert month
     d <- sub(names(months)[as.numeric(month)], month, d)
   }
-  
-  if(asDate) 
-    return(as.Date(d)) 
-  else 
-    return(d)
+  if(asDate){
+	  if(as.numeric(R.Version()$major)+0.1*as.numeric(R.Version()$minor)<3.5){
+		  return(as.Date(d,format = c("%d.%m.%Y"))) 
+	  }else{
+		  return(as.Date(d,tryFormats = c("%d.%m.%Y","%Y-%m-%d"))) 
+	  }#R.Version
+  }else {
+	  return(d)
+  }#else
 }
 
 #' function to make strings xml and html compatible
@@ -464,3 +468,19 @@ htmlify_string <- function(input_string){
 	
 }
 
+#' function to derive external package functionalities
+#' 
+#' @param x \code{character} package :: function string
+#' 
+#' @return functionality of the wanted function
+#' 
+#' found at 
+#' https://stackoverflow.com/questions/38983179/do-call-a-function-in-r-without-loading-the-package
+getfun<-function(x) {
+	if(length(grep("::", x))>0) {
+		parts<-strsplit(x, "::")[[1]]
+		getExportedValue(parts[1], parts[2])
+	} else {
+		x
+	}
+}

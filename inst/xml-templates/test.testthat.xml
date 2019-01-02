@@ -1,0 +1,46 @@
+<RTestCase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:noNamespaceSchemaLocation="../../inst/xsd/RTest.xsd">
+	<ID>RTest_TC-testthat</ID>
+	<synopsis>
+		<version>01</version>
+		<author>Matthias Pfeifer</author>
+		<short-description>RTest Template TC</short-description>
+		<description>
+    <![CDATA[
+    Extended Description of the test case allowing also <some><special>/characters
+    ]]>
+		</description>
+		<label>My Label</label>
+		<creation-date>2016-01-25</creation-date>
+		<change-history>
+			<change author="Matthias Pfeifer" date="2016-01-25">Initial Version</change>
+		</change-history>
+	</synopsis>
+	<input-data>
+		<data.frame name="test01">
+			<col-defs>
+				<coldef name="x" type="numeric" />
+				<coldef name="y" type="numeric" />
+			</col-defs>
+			<row>
+				<cell>1</cell>
+				<cell>2</cell>
+			</row>
+			<row>
+				<cell>1</cell>
+				<cell>2</cell>
+			</row>
+		</data.frame>
+	</input-data>
+	<tests>
+		<RTest>
+
+			<my_fun>
+			<testspec>
+				<execution execution-type="silent"></execution>
+			</testspec>
+			</my_fun>
+		</RTest>
+	</tests>
+</RTestCase>

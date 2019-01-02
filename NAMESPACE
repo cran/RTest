@@ -53,8 +53,12 @@ export(
   "example_data_frame"						  ,
   "example_image"							  ,
   "example_list"							  ,
+  "example_list_large"						  ,
   "example_vector"							  ,
   "example_variable"						  ,
+  
+  "expect_silent_RTest"						  ,
+  "as.expectation.logical"					  ,
   
   "RTest.execute"					  
 )
@@ -76,12 +80,19 @@ importFrom(
 	"stringr","str_extract")
 	
 importFrom(
+    "tcltk", "tktoplevel", "tklabel", "tclVar", "tkgrid", "tkentry", "tkbutton", "tkdestroy", 
+    "tkfocus", "tclvalue")
+    
+importFrom(
 	"magrittr","%>%")
 
 importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
              "tar"
 )
 importFrom("magick", "image_compare","image_read","image_write")
+importFrom("glue", "glue","glue_collapse")
+importFrom("rlang", "enquo", "quo_label", "eval_bare")
+importFrom("utils", "packageVersion", "assignInNamespace")
 
 
 # Exported classes and corresponding methods ######################################################
@@ -110,7 +121,6 @@ exportMethods(
   "generic"									 ,               
   
   # Test Adapter
-  "test.RTest.test_returnValue_data.frame_cellbycell",
   "test.RTest.funct_01"
          
 )

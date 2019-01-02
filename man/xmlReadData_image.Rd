@@ -24,8 +24,7 @@ data <- paste0(
 		)
 item <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 value <- RTest::xmlReadData_image(item)
-print("The Roche Logo opens")
-system(paste0("open ",value$address))
+stopifnot(grepl("png",value$address))
 
 }
 \seealso{

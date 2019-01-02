@@ -99,6 +99,20 @@ setMethod("exec",
 		
 		definition = function (object, test.TCs = NULL, test.for = NULL, out.fPath = NULL, open = TRUE, ...) {
 			
+			if(as.numeric(stringr::str_extract(
+									as.character(packageVersion("testthat")),"[0-9]{1,2}\\.[0-9]{1,2}")) >=
+					2){
+				
+				# Changing as.expectation.logical as for testthat>=2.0 it's
+				# not producing the reporting we need for pretty reports
+				#tryCatch(
+				#		assignInNamespace("as.expectation.logical", RTest::as.expectation.logical,
+				#		ns="testthat", pos="package:testthat"),error=function(e){})
+				
+				#unlockBinding("as.expectation.logical", as.environment("package:testthat")) 
+				#assign("as.expectation.logical", RTest::as.expectation.logical, "package:testthat")
+			}
+			
 			# Initialize the list of TCs to perform -------------------------------------------------------
 			test.TCs <- getValidTCs(object, test.TCs)
 			
@@ -214,7 +228,6 @@ setMethod("importTC",
       # Get element name of first node
       tc.adapter <- xmlName(tc.xmlRoot)
       
-      
       # Check if adapter exists - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
       tryCatch(
           { getClass("RTestCollection"); },
@@ -224,8 +237,8 @@ setMethod("importTC",
       
       # Create new instance of RTestCase class  - - - - - - - - - - - - - - - - - - - - - - - - - - -
       RTest.cat("Create new TC using adapter definition '",tc.adapter,"'.")
-      
-      tc <- tryCatch(
+
+	  tc <- tryCatch(
 			  do.call(
           what = tc.adapter,
 		  args=list(
@@ -760,8 +773,13 @@ setMethod("writeExecSummary.html",
       
       RTest.cat("HTML summary written to file '",out.fPath,"'.\n\n")
       
-      if(open)
-        shell.exec(out.fPath)
+      if(open){
+		 if(Sys.info()["sysname"]=="Windows"){
+			 shell.exec(out.fPath)
+		 }else{
+			 system(paste("open",out.fPath))
+		 }
+	 }
     }
 )
 

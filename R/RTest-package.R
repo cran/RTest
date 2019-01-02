@@ -38,3 +38,9 @@
 #' 
 #' @name RTest
 NULL
+
+.onAttach <- function(...) {
+	packageStartupMessage("Thank you for using RTest\n")
+	packageStartupMessage("To use a more comprehensive version of the test-report we recommend to run:\n")
+	packageStartupMessage("assignInNamespace(\"as.expectation.logical\", RTest::as.expectation.logical, ns=\"testthat\", pos=\"package:testthat\")")
+}

@@ -56,10 +56,13 @@
 #'  ),error=function(e){
 #'     stopifnot(grepl("produced warnings",e))
 #'  })
-#' 
+#' @importFrom utils packageVersion
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
-test_execution <- function(what, args, xmlTestSpec, ...) {
+test_execution <- function(what, args, xmlTestSpec=NULL, ...) {
   
+  if(is.null(xmlTestSpec)){
+	  xmlTestSpec <- XML::xmlNode("execution",attrs=c("execution-type"="silent"))
+  }	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
   # Global settings of the test -------------------------------------------------------------------
@@ -76,7 +79,8 @@ test_execution <- function(what, args, xmlTestSpec, ...) {
               "output"  = paste("Execute function with output.",paste0("(",what,")")),
               "message" = paste("Execute function with message(s).",paste0("(",what,")")),
               "warning" = paste("Execute function with warning(s).",paste0("(",what,")")),
-              "error"   = paste("Execute function with error(s).",paste0("(",what,")"))
+              "error"   = paste("Execute function with error(s).",paste0("(",what,")")),
+			  stop("Test type '",test.type,"' not implemented.")
           ))
   
   #  message(test.name)
@@ -87,13 +91,28 @@ test_execution <- function(what, args, xmlTestSpec, ...) {
   # Initialize variable to store result of computation
   result <- NULL
   
+  force_implementation <- if(!is.null(options("force_implementation")[[1]])){
+			  as.logical(options("force_implementation"))
+		  }else{
+			  FALSE
+		  }
+  
   test_that(test.name, {
         # Check different execution types.... 
         if(test.type == "silent") {
           # ... without any message / warning / error
-          expect_silent(
-              result <<- do.call(what = what, args = args, ...)
-          )
+		  if(as.numeric(
+				stringr::str_extract(
+						as.character(packageVersion("testthat")),"[0-9]{1,2}\\.[0-9]{1,2}")) >=
+				  2 && !force_implementation){
+			  expect_silent_RTest(
+	              result <<- do.call(what = what, args = args, ...)
+	          )
+		  }else{
+			  expect_silent(
+	              result <<- do.call(what = what, args = args, ...)
+					  )
+		  }
           
         } else if(test.type == "output") {
           # ... with message(s)
@@ -119,8 +138,6 @@ test_execution <- function(what, args, xmlTestSpec, ...) {
               result <<- do.call(what = what, args = args, ...)
           )
           
-        } else {
-          stop("Test type '",test.type,"' not implemented.")
         }
       })
   
@@ -264,7 +281,7 @@ test_returnValue_variable <- function(result, reference, xmlTestSpec, add.desc =
             },
             "less_than" = {
               do.call(
-                  "expect_less_than", 
+                  "expect_lt", 
                   list(
                       object    = rec, 
                       expected  = exp, 
@@ -281,7 +298,7 @@ test_returnValue_variable <- function(result, reference, xmlTestSpec, add.desc =
             },
             "more_than" = {
               do.call(
-                  "expect_more_than", 
+                  "expect_gt", 
                   list(
                       object    = rec, 
                       expected  = exp,
@@ -367,7 +384,6 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
 	}	
   test.attrs <- xmlAttrs(xmlTestSpec)
   
-  
   # Global settings of the test -------------------------------------------------------------------
   
   # Get the global settings of the test from the current XML definition. These are mendatory and
@@ -378,8 +394,7 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
       ifelse("desc" %in% names(test.attrs), 
           test.attrs[["desc"]], "Check return value (variable).")
   
-  if(!is.null(add.desc))
-    test.name <- paste0(add.desc," ",test.name)
+  if(!is.null(add.desc)) test.name <- paste0(add.desc," ",test.name)
   
   test.diffType  <- 
       ifelse("diff-type" %in% names(test.attrs),
@@ -394,7 +409,7 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
           as.numeric(test.attrs[["tolerance"]]), 1.5e-8) 
   
   # Get the entries and settings from the reference vector ----------------------------------------  
-  
+	
   elems <- lapply(1:length(reference), 
       function(i) {
         
@@ -424,14 +439,11 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
           
           name      <- attrs[["name"]]
           
-          if("diff-type" %in% names(attrs))
-            elems[[name]][["diffType"]] <<- attrs[["diff-type"]]
+          if("diff-type" %in% names(attrs)) elems[[name]][["diffType"]] <<- attrs[["diff-type"]]
           
-          if("compare-type" %in% names(attrs))
-            elems[[name]][["compareType"]] <<- attrs[["compare-type"]]
+          if("compare-type" %in% names(attrs)) elems[[name]][["compareType"]] <<- attrs[["compare-type"]]
           
-          if("tolerance" %in% names(attrs)) 
-            elems[[name]][["tolerance"]] <<- as.numeric(attrs[["tolerance"]])
+          if("tolerance" %in% names(attrs)) elems[[name]][["tolerance"]] <<- as.numeric(attrs[["tolerance"]])
         })
   }
   
@@ -490,11 +502,17 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
             sapply(1:length(reference), function(i) {
                   elem <- elems[[i]]
                   
-                  # Get data
-                  rec <- unname(result[elem$name])
-                  exp <- unname(reference[elem$name])
-                  
-                  # Get data types
+				  if(!is.na(unname(result[elem$name]))){
+					  # Get data
+					  rec <- unname(result[elem$name])
+					  exp <- unname(reference[elem$name])
+				  }else{
+					  # Get data
+					  rec <- unname(result[i])
+					  exp <- unname(reference[i])
+				  }
+
+				  # Get data types
                   rec.type <- typeof(rec)
                   exp.type <- typeof(exp)
                   
@@ -504,8 +522,7 @@ test_returnValue_vector_elementbyelement <- function(result, reference, xmlTestS
                   
                   # Tolerance set to very small number, like in all.equal (which is used by testthat) 
                   #     https://stat.ethz.ch/R-manual/R-devel/library/base/html/all.equal.html
-                  if(elem$tolerance == 0)
-                    elem$tolerance <- 1.5e-8
+                  if(elem$tolerance == 0) elem$tolerance <- 1.5e-8
                   
                   test.info <- list(
                       Test               = "Equal Value",
@@ -1042,7 +1059,7 @@ test_returnValue_data.frame_shape <- function(result, reference, xmlTestSpec, ad
   
   if(!is.null(add.desc))
     test.name <- paste0(add.desc," ",test.name)
-  print(test.name)
+
   test.diffType  <- 
       ifelse("diff-type" %in% names(test.attrs),
           test.attrs[["diff-type"]], "absolute")
@@ -1099,36 +1116,6 @@ test_returnValue_data.frame_shape <- function(result, reference, xmlTestSpec, ad
         
         exp.rownames <- rownames(reference)
         rec.rownames <- rownames(result)
-        
-        # Get data types
-        exp.colTypes <- sapply(1:exp.ncols, function(i) {
-              type <- typeof(reference[[i]])
-              if(type=="integer"){
-                if(grepl("Factor",capture.output(str(reference[[i]])))){
-                  "factor"
-                }else{
-                  type
-                }
-              }else{
-                type
-              }
-            }
-        )  
-        
-        
-        rec.colTypes <- sapply(1:rec.ncols, function(i) {
-              type <- typeof(reference[[i]])
-              if(type=="integer"){
-                if(grepl("Factor",capture.output(str(reference[[i]])))){
-                  "factor"
-                }else{
-                  type
-                }
-              }else{
-                type
-              }
-            }
-        )  
         
         test.info.dims <- paste0(
             "{", 
@@ -1428,9 +1415,15 @@ test_returnValue_list_nodebynode <- function(result, reference, xmlTestSpec, add
 #' @seealso \code{\link[XML]{XMLNode-class}}
 #' 
 #' @author   Matthias Pfeifer \email{matthias.pfeifer@@roche.com}
-test_manualCheck_file <- function(result, reference, xmlTestSpec, add.desc = NULL,
+test_manualCheck_file <- function(result, reference, xmlTestSpec=NULL, add.desc = NULL,
     openrecexp = NULL, openrecexp.exec = FALSE) 
 {
+	testmode <- if(!is.null(options("testmode")[[1]])){
+				as.logical(options("testmode"))
+			}else{
+				FALSE
+			}
+	
 	if(is.null(xmlTestSpec)){
 		xmlTestSpec <- xmlNode("return-value",attrs=list("compare-type"="equal"))
 	}	
@@ -1467,23 +1460,30 @@ test_manualCheck_file <- function(result, reference, xmlTestSpec, add.desc = NUL
     openrecexp <- function() {
       cat("\n\n-----------------------------------------------------\n\n")
       
-      cat("RESULT:\n")
-      cat(result,"\n")
-      
-      if(file.info(result)$isdir) {
-        tmp <- getwd()
-        setwd(result)
-        shell.exec(".")
-        setwd(tmp)        
-      } else {
-        shell.exec(result)
-      }
+	 if( file.exists(result) ){
+		  
+	      cat("RESULT:\n")
+	      cat(result,"\n")
+	      
+	      if(file.info(result)$isdir) {
+	        tmp <- getwd()
+	        setwd(result)
+			
+			if(Sys.info()["sysname"]=="Windows")shell.exec(".")
+	        setwd(tmp)        
+	      } else {
+			  if(Sys.info()["sysname"]=="Windows")shell.exec(result)
+	      }
+	  }else{
+		  cat("RESULT:\n")
+		  cat("not existing")
+	  }
       
       cat("REFERENCE:\n")
       cat(reference.txt,"\n")
       
       if(refisfile)
-        shell.exec(reference)
+		  if(Sys.info()["sysname"]=="Windows")shell.exec(reference)
       
       cat("\n\n-----------------------------------------------------\n\n")
     }
@@ -1557,6 +1557,11 @@ test_manualCheck_confirmWindow <- function(openrecexp = NULL, expectedTxt = NULL
     stop("Package 'tcltk' is needed for this function to work. Please install it.", call. = FALSE)
   }
   
+  testmode <- if(!is.null(options("testmode")[[1]])){
+	  as.logical(options("testmode"))
+  }else{
+	  FALSE
+  }
   
   # Initalize variable to store user decisionresult 
   result <- NA
@@ -1625,11 +1630,16 @@ test_manualCheck_confirmWindow <- function(openrecexp = NULL, expectedTxt = NULL
   # Focus on current window
   tcltk::tkfocus(win)
   
-  
-  # Wait on user interaction (i.e. until variable 'result' is set)
-  while(is.na(result)){ Sys.sleep(5) }
-  
-  return(list(result = result, comment = tcltk::tclvalue(comment)))  
+  if(testmode){
+	  tcltk::tkdestroy(win)
+	  return(list(result = TRUE, comment = "TRUE by testmode"))
+  }else{
+	  
+	  # Wait on user interaction (i.e. until variable 'result' is set)
+	  while(is.na(result)){ Sys.sleep(5) }
+	  
+	  return(list(result = result, comment = tcltk::tclvalue(comment)))  
+  }
 }
 
 # test_returnValue_variable #######################################################################
@@ -1782,9 +1792,10 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
 #        )
 				
 		image_compared <- magick::image_compare(
-				image=magick::image_read(result),
-				reference_image = magick::image_read(reference),
+				image=magick::image_read(rec),
+				reference_image = magick::image_read(exp),
 				metric = "RMSE")
+		
 		difference_in_percent <- attributes(image_compared)$distortion
 
 		magick::image_write(
@@ -1804,8 +1815,9 @@ test_returnValue_image <- function(result, reference, xmlTestSpec, add.desc = NU
             sprintf("<img width=200 src='%s' alt='%s' />",
                 src,
                 paste0(gsub(":","_",gsub(c(" "),"_",date()))))
-        
-        switch(test.compareType,
+		
+		
+		switch(test.compareType,
             "equal" = {
               do.call(
                   "expect_equal", 

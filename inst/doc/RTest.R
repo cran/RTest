@@ -11,6 +11,7 @@ RTest::xmlWriteData_data.frame("data.frame",my_data,"test01")
 
 ## ---- eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE-----------
 library(magrittr)
+library(RTest)
 RTest::RTest.execute(
    testcase.directory = list.dirs(find.package('RTest'),recursive=TRUE) %>% 
  				grep(pattern="xml-templates",value=TRUE),

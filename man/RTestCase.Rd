@@ -42,6 +42,7 @@ Constructor for RTestCase
 }
 \examples{
 library(RTest)
+
 xml.root <- XML::newXMLNode("func01")
 RTest::xmlFromList(xml.root,
 		list(
@@ -77,7 +78,7 @@ testEntry <- list(
 		"pgk-iter"       = "1",
 		"func"           = "funct_01",
 		"func-iter"      = "1",
-		"test-code"      = "RTest::funct_01",
+		"test-code"      = "RTest::test_fun",
 		"test-adapter"   = "RTestCase",
 		"test-func"      = "test.RTest.funct_01",
 		"pkg-desc"       = "no package desc",
