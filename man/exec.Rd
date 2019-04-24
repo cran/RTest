@@ -12,18 +12,18 @@
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCollection-class}} object.}
 
-\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all 
+\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all
 all TCs of the collection should be tested.}
 
-\item{test.for}{(\code{vector(character)}) Specification for which elements to test, 
+\item{test.for}{(\code{vector(character)}) Specification for which elements to test,
 NULL for test all elements}
 
 \item{out.fPath}{(\code{character}) Path to output file.}
 
-\item{open}{(\code{logical}) Should the generated file be opened (TRUE) or not 
+\item{open}{(\code{logical}) Should the generated file be opened (TRUE) or not
 (FALSE) after report generation.}
 
-\item{...}{(\code{logical}) Additional parameters passed to function 
+\item{...}{(\code{logical}) Additional parameters passed to function
 \code{writeExecSummary.html}.}
 }
 \description{
@@ -32,19 +32,19 @@ Tests imported Test Cases
 \examples{
 
 testCollection <- new("RTestCollection",
-	project.name    = "RTest Vignette", 
-	project.details = "Example test exectuion",
-	tester          = "Example tester",
-	test.start      = format(Sys.time(), "\%Y-\%m-\%d \%H:\%M:\%S"))
+   project.name    = "RTest Vignette",
+   project.details = "Example test exectuion",
+   tester          = "Example tester",
+   test.start      = format(Sys.time(), "\%Y-\%m-\%d \%H:\%M:\%S"))
 
-TCDir <- list.dirs(find.package("RTest"),recursive = TRUE) \%>\% 
+TCDir <- list.dirs(find.package("RTest"),recursive = TRUE) \%>\%
    grep(pattern = "xml-templates", value = TRUE)
 
 message("Test Adapter being used is defined in Function")
 message("test.RTest.test_returnValue_data.frame_cellbycell")
 
-testCollection <- RTest::importTCsFromDir(testCollection,
-		xml.dPath = TCDir,f.pattern	= "RTest_TC-01.xml")
+testCollection <- importTCsFromDir(testCollection,
+    xml.dPath = TCDir[1],f.pattern  = "RTest_TC-01.xml")
 
 testCollection <- exec(testCollection)
 

@@ -15,7 +15,7 @@
 \item{tf.pkg}{(\code{character}) The package name of the currently executed test
 function.}
 
-\item{tf.pkg.i}{(\code{integer}) The package iteration number of the currently executed 
+\item{tf.pkg.i}{(\code{integer}) The package iteration number of the currently executed
 test function.}
 
 \item{tf.func}{(\code{character}) The function name of the currently executed test

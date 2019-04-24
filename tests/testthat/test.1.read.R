@@ -170,6 +170,41 @@ test_that("xmlReadData data frame types",{
 			
 			
 		})
+test_that("xmlReadData data frame <cell/>",{
+			
+			data <- '<data.frame name="df1"><col-defs>
+					<col-def name="col1" type="character"/>
+					<col-def type="integer"/>
+					<col-def type="factor"/>
+					<col-def type="logical"/>
+					</col-defs>
+					<row name="1">
+					<cell>NA</cell>
+					<cell/>
+					<cell>abc</cell>
+					<cell>TRUE</cell>
+					</row>
+					</data.frame>'
+			item <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
+			# Test to be df with 0 rows
+			expect_equal(
+					xmlReadData_data.frame(item,FALSE)[1,1],as.character(NA)
+			)
+			expect_equal(
+					class(xmlReadData_data.frame(item,FALSE)[1,2]),"integer"
+			)
+			expect_equal(
+					xmlReadData_data.frame(item,FALSE)[1,2],as.integer(NA)
+			)
+			expect_equal(
+					class(xmlReadData_data.frame(item,FALSE)[1,3]),"factor"
+			)
+			expect_equal(
+					class(xmlReadData_data.frame(item,FALSE)[1,4]),"logical"
+			)
+			
+			
+		})
 
 test_that("xmlReadData data frame error",{
 			

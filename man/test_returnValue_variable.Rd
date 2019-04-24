@@ -14,7 +14,7 @@ test_returnValue_variable(result, reference, xmlTestSpec,
 
 \item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 'RTestTest_variable'.}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 }
 \description{
@@ -28,7 +28,7 @@ tryCatch(unloadNamespace("RTest"))
 tryCatch(unloadNamespace("testthat"))
 library(RTest)
 
-data <- '<test_variable desc="Compare a value" 
+data <- '<test_variable desc="Compare a value"
           diff-type="absolute" compare-type="equal" tolerance="1E-3"/>'
 xmlTestSpec <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 
@@ -38,18 +38,18 @@ test_returnValue_variable(5.0001,5,xmlTestSpec)
 
 # Compare variable with a stricter tolerance
 
-data <- '<test_variable desc="Compare a value" 
+data <- '<test_variable desc="Compare a value"
           diff-type="relative" compare-type="equal" tolerance="1E-6"/>'
 xmlTestSpec <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 
 tryCatch(unloadNamespace("RTest"))
 tryCatch(unloadNamespace("testthat"))
 library(RTest)
- 
+
 tryCatch(
-		test_returnValue_variable(5.0001,5,xmlTestSpec),error=function(e){
-			stopifnot(grepl("5.0001 not equal to 5.",e))
-		})
+    test_returnValue_variable(5.0001,5,xmlTestSpec),error=function(e){
+      stopifnot(grepl("5.0001 not equal to 5.",e))
+    })
 
 }
 \seealso{

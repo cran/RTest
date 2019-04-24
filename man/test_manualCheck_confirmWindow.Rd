@@ -13,7 +13,7 @@ values or NULL to hide all.}
 \item{expectedTxt}{(\code{character}) Shown as text for the expected vidow.}
 }
 \value{
-(\code{list}) List with elements 'result': TRUE or FALSE depending on the user's 
+(\code{list}) List with elements 'result': TRUE or FALSE depending on the user's
           choice and 'comment': inserted user comment.
 }
 \description{
@@ -21,7 +21,7 @@ Creates a Tcl/Tk Window for confirmation of the manual check
 }
 \section{Package dependencies}{
 
-The \code{tcltk} package is required. Please install it from CRAN if not in your current library 
+The \code{tcltk} package is required. Please install it from CRAN if not in your current library
 path.
 }
 

@@ -12,10 +12,10 @@ test_returnValue_data.frame_cellbycell(result, reference, xmlTestSpec,
 
 \item{reference}{(\code{data.frame}) The reference data.frame}
 
-\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 
+\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type
 'RTestTest_data.frame_cellbycell'}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 }
 \description{

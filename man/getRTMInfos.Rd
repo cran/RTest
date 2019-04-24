@@ -20,7 +20,7 @@ the TCs in the RTM. The ordering in the vector is also the ordering
 in the output ('Version','Type','Label','sDesc','lDesc').}
 }
 \value{
-(\code{list}) Listing of test case details (ID, Version, Type, sDesc) and 
+(\code{list}) Listing of test case details (ID, Version, Type, sDesc) and
           assigned specification IDs (SpecIDs) and risk IDs (RiskIDs).
 }
 \description{

@@ -7,7 +7,7 @@
 test_execution(what, args, xmlTestSpec = NULL, ...)
 }
 \arguments{
-\item{what, args}{Parameters for execution of the test function 
+\item{what, args}{Parameters for execution of the test function
 (see \code{\link{do.call}}).}
 
 \item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 'RTestTest_variable'.}
@@ -33,8 +33,8 @@ stopifnot(value==5)
 # Create a function that always produces warnings
 
 sum_test <- function(...){
-	warning("test")
-	sum(...)
+  warning("test")
+  sum(...)
 }
 
 # Let this function run and crash, if it crashes check if the error contains "produced warnings"

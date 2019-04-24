@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.test.R
 \name{test_returnValue_data.frame_shape}
 \alias{test_returnValue_data.frame_shape}
-\title{Tests a Standard R 'data.frame' by shape, rownames and colnames 
+\title{Tests a Standard R 'data.frame' by shape, rownames and colnames
     ('RTestTest_data.frame_shape')}
 \usage{
 test_returnValue_data.frame_shape(result, reference, xmlTestSpec,
@@ -13,14 +13,14 @@ test_returnValue_data.frame_shape(result, reference, xmlTestSpec,
 
 \item{reference}{(\code{data.frame}) The reference data.frame}
 
-\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 
+\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type
 'RTestTest_data.frame_cellbycell'}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 }
 \description{
-Tests a Standard R 'data.frame' by shape, rownames and colnames 
+Tests a Standard R 'data.frame' by shape, rownames and colnames
     ('RTestTest_data.frame_shape')
 }
 \examples{
@@ -32,7 +32,7 @@ library(RTest)
 
 # create some definition of tests
 
-data <- '<test_df desc="Compare a value" diff-type="relative" 
+data <- '<test_df desc="Compare a value" diff-type="relative"
          compare-type="equal" tolerance="1E-6"/>'
 xmlTestSpec <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 
@@ -48,29 +48,29 @@ test_returnValue_data.frame_shape(x,y,xmlTestSpec)
 # Test for shape
 
 tryCatch(
-		{test_returnValue_data.frame_shape(x,y_wrong_shape,xmlTestSpec)
-		stop("test did not find difference")},
-		error=function(e){
-			stopifnot(grepl("rec.nrows",e))
-			stopifnot(grepl("exp.nrows",e))
-			stopifnot(grepl("not equal",e))
-		})
+    {test_returnValue_data.frame_shape(x,y_wrong_shape,xmlTestSpec)
+    stop("test did not find difference")},
+    error=function(e){
+      stopifnot(grepl("rec.nrows",e))
+      stopifnot(grepl("exp.nrows",e))
+      stopifnot(grepl("not equal",e))
+    })
 
 # Test for column names
 
-data <- '<test_df check_colnames="TRUE" 
-          desc="Compare a value" diff-type="relative" 
+data <- '<test_df check_colnames="TRUE"
+          desc="Compare a value" diff-type="relative"
           compare-type="equal" tolerance="1E-6"/>'
 xmlTestSpec <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 
 tryCatch({
-		test_returnValue_data.frame_shape(x,y_wrong_names,xmlTestSpec)
-		stop("test did not find difference")},
+    test_returnValue_data.frame_shape(x,y_wrong_names,xmlTestSpec)
+    stop("test did not find difference")},
      error=function(e){
-			stopifnot(grepl("rec.name",e))
-			stopifnot(grepl("exp.name",e))
-			stopifnot(grepl("not equal",e))
-		})
+      stopifnot(grepl("rec.name",e))
+      stopifnot(grepl("exp.name",e))
+      stopifnot(grepl("not equal",e))
+    })
 
 }
 \seealso{

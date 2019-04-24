@@ -27,28 +27,28 @@ tetest}
 This method executes the test logic for a test case in a \code{testthat} reporter environment.
 }
 \details{
-This method performs the test logic by iterating through all testgroups as defined in the TC XML 
-definition file. For each test group it starts a seperate '\code{ListReporter}', which is 
-defined in the \code{testthat} package. Then, the different functions of a testgroup are 
-executed. Therefore, this function calls the method \code{execTCAdapter}, which needs to be 
+This method performs the test logic by iterating through all testgroups as defined in the TC XML
+definition file. For each test group it starts a seperate '\code{ListReporter}', which is
+defined in the \code{testthat} package. Then, the different functions of a testgroup are
+executed. Therefore, this function calls the method \code{execTCAdapter}, which needs to be
 defined for each TestCase type separatly (e.g. for DSTAT, VCA, Calib, etc.). This method is the
 adapter function and knows how to read the test case and how to execute the functions, which
-should be tested. Thereby, all test results generated using \code{\link[testthat]{test_that}} 
+should be tested. Thereby, all test results generated using \code{\link[testthat]{test_that}}
 and the \code{expect_*} of the \code{testthat} package are recorded by the previously started
-reporter object. The generated test results are stored (slot \code{test.result}) and the test 
+reporter object. The generated test results are stored (slot \code{test.result}) and the test
 execution status set (slot \code{test.status}).
 }
 \examples{
 
 location <- find.package("RTest")
 
-TestCase <- RTestCase(xml.fPath = 
-	file.path(location,"xml-templates","RTest_TC-01.xml"))
+TestCase <- RTestCase(xml.fPath =
+  file.path(location,"xml-templates","RTest_TC-01.xml"))
 
 result <- test(TestCase)
 
 stopifnot(result@test.result == "success")
- 
+
 }
 \seealso{
 \code{\link{RTestCase-class}}

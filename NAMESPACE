@@ -1,9 +1,10 @@
 # Generics and functions defined in this package ##################################################
 
 export(
-  "RTestCase"                                 , 
+  "RTestCase"                                 ,
+  "RTestCollection"                           ,
   "setTestMethod"                             ,
-  
+
   "xmlReadData_variable"                      ,
   "xmlReadData_image"                         ,
   "xmlReadData_vector"                        ,
@@ -12,8 +13,8 @@ export(
   "xmlReadData_text"                          ,
   "xmlRead.default"                           ,
   "xmlReadData_to_list"                       ,
-  
-  "xmlWriteContext"                           , 
+
+  "xmlWriteContext"                           ,
   "xmlWriteSynopsis"                          ,
   "xmlWriteInputData"                         ,
   "xmlWriteTests"                             ,
@@ -27,8 +28,8 @@ export(
   "xmlWriteTest_vector_elementbyelement"      ,
   "xmlWriteTest_list_nodebynode"              ,
   "xmlWriteTest_execution"                    ,
-  "xmlFromList"								  ,
-  
+  "xmlFromList"                  ,
+
   "test_execution"                            ,
   "test_returnValue_any"                      ,
   "test_returnValue_variable"                 ,
@@ -38,53 +39,52 @@ export(
   "test_returnValue_list_nodebynode"          ,
   "test_manualCheck_file"                     ,
   "test_manualCheck_confirmWindow"            ,
-  "test_returnValue_image"					  ,
+  "test_returnValue_image"            ,
   "systemInfo.packages"                       ,
   "systemInfo.RInst"                          ,
   "systemInfo.host"                           ,
-  "package_md5"								  ,
+  "package_md5"                  ,
   "normalizeDate"                             ,
   "htmlify_string"                            ,
-  
-  "test_fun"								  ,
-  "arguments_creator"						  ,
-  "get_existence_of_fun"					  ,
-  
-  "example_data_frame"						  ,
-  "example_image"							  ,
-  "example_list"							  ,
-  "example_list_large"						  ,
-  "example_vector"							  ,
-  "example_variable"						  ,
-  
-  "expect_silent_RTest"						  ,
-  "as.expectation.logical"					  ,
-  
-  "RTest.execute"					  
+
+  "test_fun"                  ,
+  "arguments_creator"              ,
+  "get_existence_of_fun"            ,
+
+  "example_data_frame"              ,
+  "example_image"                ,
+  "example_list"                ,
+  "example_list_large"              ,
+  "example_vector"                ,
+  "example_variable"              ,
+
+  "expect_silent_RTest"              ,
+
+  "RTest.execute"
 )
 
 
 
 # Packages which are imported (appearing in the Description->Imports enumeration) #################
 
-import( 
+import(
   "XML"                                      ,
   "testthat"                                 ,
   "base64"                                   ,
   "jsonlite"                                 ,
-  "methods"								     ,
-  "stringr"								     
+  "methods"                     ,
+  "stringr"
 )
 
 importFrom(
-	"stringr","str_extract")
-	
+  "stringr","str_extract")
+
 importFrom(
-    "tcltk", "tktoplevel", "tklabel", "tclVar", "tkgrid", "tkentry", "tkbutton", "tkdestroy", 
+    "tcltk", "tktoplevel", "tklabel", "tclVar", "tkgrid", "tkentry", "tkbutton", "tkdestroy",
     "tkfocus", "tclvalue")
-    
+
 importFrom(
-	"magrittr","%>%")
+  "magrittr","%>%")
 
 importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
              "tar"
@@ -98,11 +98,11 @@ importFrom("utils", "packageVersion", "assignInNamespace")
 # Exported classes and corresponding methods ######################################################
 
 exportClasses(
-  "RTestCollection"                          , 
-  "RTestCase"                                
+  "RTestCollection"                          ,
+  "RTestCase"
 )
 
-exportMethods(  
+exportMethods(
   # RTestCollection -------------------------------------------------------------------------------
   "show"                                     ,
   "importTC"                                 ,
@@ -114,13 +114,13 @@ exportMethods(
   "writeExecSummary.html"                    ,
   "getRTM"                                   ,
   "getRTMInMatrixShape"                      ,
-  
+
   # RTestCase -------------------------------------------------------------------------------------
-  "show"       								 ,       
-  "test"									 ,               
-  "generic"									 ,               
-  
+  "show"                        ,
+  "test"                   ,
+  "generic"                   ,
+
   # Test Adapter
   "test.RTest.funct_01"
-         
+
 )

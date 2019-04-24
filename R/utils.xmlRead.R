@@ -264,8 +264,7 @@ xmlReadData_data.frame <- function(xmlItem, na_to_none=FALSE) {
             xmlSApply(
               xmlRow, 
               function(xmlCell) {     # Parse cells
-				if(xmlValue(xmlCell)!="\\n"){
-					
+				if(length(xmlValue(xmlCell))==0 || xmlValue(xmlCell)!="\\n"){
 	                cell        <- c(xmlValue(xmlCell))
 	                names(cell) <- xmlAttrs(xmlCell)[["ID"]]
 					if(na_to_none){					

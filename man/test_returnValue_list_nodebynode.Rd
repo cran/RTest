@@ -12,10 +12,10 @@ test_returnValue_list_nodebynode(result, reference, xmlTestSpec,
 
 \item{reference}{(\code{list}) The reference list}
 
-\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 
+\item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type
 'RTestTest_list_nodebynode'}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 }
 \description{

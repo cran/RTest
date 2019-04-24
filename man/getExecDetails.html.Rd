@@ -12,14 +12,14 @@
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object.}
 
-\item{report.onlyFailed}{(\code{logical}) Report only failed exceptions (TRUE) or 
+\item{report.onlyFailed}{(\code{logical}) Report only failed exceptions (TRUE) or
 all exceptions (FALSE, default).}
 }
 \value{
 (\code{character})
 }
 \description{
-Generates a detailed summary of the last test case execution for the overall test report 
+Generates a detailed summary of the last test case execution for the overall test report
 including all tested expectations.
 }
 \seealso{

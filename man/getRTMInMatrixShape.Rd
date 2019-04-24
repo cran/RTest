@@ -12,7 +12,7 @@
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCollection-class}} object.}
 
-\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all 
+\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all
 all TCs of the collection should be tested.}
 
 \item{type}{(\code{character}) Type of the returned matrix, either 'function'  or
@@ -24,7 +24,7 @@ all TCs of the collection should be tested.}
 (\code{data.frame}) The RTM as \code{data.frame} table object.
 }
 \description{
-This method returns the requirement traceability matrix (RTM) in matrix representation for all 
+This method returns the requirement traceability matrix (RTM) in matrix representation for all
 imported test cases of the test case collection. Thereby, the matrix can be created for the
 relationship function to test case or risk to test case.
 }

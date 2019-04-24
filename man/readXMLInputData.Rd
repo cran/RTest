@@ -12,7 +12,7 @@
 \item{object}{(\code{object}) The \code{\link{RTestCase-class}} object}
 }
 \value{
-(\code{ANY}) If multiple datasets are defined a \code{list} will be returned 
+(\code{ANY}) If multiple datasets are defined a \code{list} will be returned
           containing all datasets with the same order as in the XML file. Else, if only a single
           is defined, the dataset itself will be returned.
 }
@@ -23,8 +23,8 @@ This functions reads the XML definitions for default RTest objects.
 Input datasets are contained below the XML element '\code{input-data}' and can be used by any
 test packages and functions of the respective test case adapter (i.e. by the functions of the
 objects inheriting the class '\code{RTestCase}'). By default major R data types are predefined
-under the node and can be read by this method. Thereby, the type of the imported datasets is 
-determined by the XML element names. This method runs through all XML items, parses the 
+under the node and can be read by this method. Thereby, the type of the imported datasets is
+determined by the XML element names. This method runs through all XML items, parses the
 item and converts it into the respective R object.\cr
 The following element types are supported:\cr
 \itemize{

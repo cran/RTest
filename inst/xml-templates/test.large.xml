@@ -1,6 +1,6 @@
 <RTestCase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
-	xsi:noNamespaceSchemaLocation="../../inst/xsd/RTest.xsd">
+	xsi:noNamespaceSchemaLocation="../../xsd/RTest.xsd">
 	<ID>RTest_TC-Large</ID>
 	<synopsis>
 		<version>01</version>

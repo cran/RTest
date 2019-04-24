@@ -11,7 +11,7 @@
 \arguments{
 \item{object}{(\code{object}) The \code{\link{RTestCollection-class}} object.}
 
-\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all 
+\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all
 all TCs of the collection should be tested.}
 
 \item{...}{Additional arguments passed to \code{\link{getRTMInfos}}.}

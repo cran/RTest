@@ -29,9 +29,11 @@
 #' 
 #' @examples 
 #' 
+#' directory_with_tests <- list.dirs(find.package('RTest'),recursive=TRUE) %>% 
+#' 				grep(pattern="xml-templates",value=TRUE)
+#' 
 #' RTest::RTest.execute(
-#'  testcase.directory = list.dirs(find.package('RTest'),recursive=TRUE) %>% 
-#' 				grep(pattern="xml-templates",value=TRUE),
+#'  testcase.directory = directory_with_tests[1],
 #' 	open=FALSE,
 #'  f.pattern = "RTest_TC-generic.xml"
 #' )
@@ -484,3 +486,4 @@ getfun<-function(x) {
 		x
 	}
 }
+

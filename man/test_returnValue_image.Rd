@@ -13,7 +13,7 @@ test_returnValue_image(result, reference, xmlTestSpec, add.desc = NULL)
 
 \item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 'RTestTest_variable'.}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 }
 \description{
@@ -29,7 +29,7 @@ library(RTest)
 
 # create some definition of tests
 
-data <- '<test_image desc="Compare a value" diff-type="relative" 
+data <- '<test_image desc="Compare a value" diff-type="relative"
          compare-type="equal" tolerance="0"/>'
 xmlTestSpec <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 location <- find.package("RTest")
@@ -45,13 +45,13 @@ test_returnValue_image(result,reference,xmlTestSpec)
 
 reference <- paste0(location,"/images/Roche_Logo_defect.png")
 tryCatch(
-	test_returnValue_image(result,reference,xmlTestSpec),
-	error=function(e){
-		if(!grepl("not equal to",e)){
-			stop("image omparison defect, please check code")
-		}
-	})
-	
+   test_returnValue_image(result,reference,xmlTestSpec),
+   error=function(e){
+     if(!grepl("not equal to",e)){
+       stop("image omparison defect, please check code")
+     }
+   })
+
 }
 \seealso{
 \code{\link[XML]{XMLNode-class}}

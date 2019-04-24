@@ -16,7 +16,7 @@ of the function as e.g. \code{evaluate_promise}}
 }
 \value{
 \code{act} A list including the label (\code{lab}),
-	a caputre of the function (\code{cap}) and the code call
+  a caputre of the function (\code{cap}) and the code call
  itself as (\code{..})
 }
 \description{

@@ -14,7 +14,7 @@ test_manualCheck_file(result, reference, xmlTestSpec = NULL,
 
 \item{xmlTestSpec}{(\code{XMLNode}) The XML definition of type 'RTestTest_variable'.}
 
-\item{add.desc}{(\code{character}) Additional description added to the XML 
+\item{add.desc}{(\code{character}) Additional description added to the XML
 definition.}
 
 \item{openrecexp}{(\code{code}) Function to open/show reference and expected result.}

@@ -55,7 +55,7 @@ test_that("RTestCase initialize",{
 					RTestCase(
 							xml.fPath = file.path(
 									find.package("RTest"),
-									"xml-templates/RTest_medium.xml"
+									"/xml-templates/RTest_medium.xml"
 									)
 							)
 					)

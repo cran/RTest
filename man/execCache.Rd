@@ -15,7 +15,7 @@
 \item{tf.pkg}{(\code{character}) The package name of the currently executed test
 function.}
 
-\item{tf.pkg.i}{(\code{integer}) The package iteration number of the currently executed 
+\item{tf.pkg.i}{(\code{integer}) The package iteration number of the currently executed
 test function.}
 
 \item{tf.func}{(\code{character}) The function name of the currently executed test
@@ -31,7 +31,7 @@ executed test function.}
 Creates the execution cache for the the currently executed test function.
 }
 \details{
-The execution cache includes all cached results of test functions that are part of the same 
+The execution cache includes all cached results of test functions that are part of the same
 package iteration and were executed prior to the current test function. The cached results will
 be stored in as a list() object with the following format:\cr
 \code{XML:                                        execCache:}\cr

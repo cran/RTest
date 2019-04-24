@@ -16,7 +16,7 @@ test_returnValue_any(result, reference, xmlTestSpec)
 \item{xmlTestSpec}{(\code{XMLNode}) An XMLNode of type \code{RTest_test_returnValue_...}}
 }
 \value{
-The function will not return anything but call \code{testthat} functions 
+The function will not return anything but call \code{testthat} functions
    creating outputs in the reporter
 }
 \description{

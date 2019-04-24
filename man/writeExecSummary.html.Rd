@@ -15,13 +15,13 @@
 
 \item{out.fPath}{(\code{character}) Path to output file.}
 
-\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all 
+\item{test.TCs}{(\code{character}) Vector with the TCs to be executed or NULL if all
 all TCs of the collection should be tested.}
 
-\item{open}{(\code{logical}) Should the generated file be opened (TRUE) or not 
+\item{open}{(\code{logical}) Should the generated file be opened (TRUE) or not
 (FALSE) after report generation.}
 
-\item{report.onlyFailed}{(\code{logical}) Report only failed exceptions (TRUE) or 
+\item{report.onlyFailed}{(\code{logical}) Report only failed exceptions (TRUE) or
 all exceptions (FALSE, default).}
 
 \item{logo}{(\code{character}) Path to alternative logo file. To use the default

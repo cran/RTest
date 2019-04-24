@@ -15,7 +15,7 @@
 \item{xml.dPath}{(\code{character}) Path to directory containing the XML files}
 
 \item{f.pattern}{(\code{character}) An optional regular expression to search the input
-directory. Only file names which match the regular expression will be 
+directory. Only file names which match the regular expression will be
 returned (passed as argument to \code{\link[base]{list.files}}).}
 
 \item{f.igncase}{(\code{logical}) Should pattern-matching be case-insensitive or nt

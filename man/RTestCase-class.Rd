@@ -5,7 +5,7 @@
 \alias{RTestCase-class}
 \title{The 'RTestCase' Class}
 \description{
-Objects of the \code{RTestCase} class specify and implement the general behavoir of the  
+Objects of the \code{RTestCase} class specify and implement the general behavoir of the
 XML-based test cases (TC).
 }
 \details{
@@ -15,16 +15,16 @@ the general outline of the individual test case classes (i.e. test case adapters
 to implement the project- and package-specific requirements and test logic.
 
 The slot '\code{tests}' represents the execution environment for a test case and stores all
-information about the execution including test case metainformation, test result (success or 
+information about the execution including test case metainformation, test result (success or
 failed), the testthat reporter and the test cache. It has the following format:\cr
 \code{XML:                     tests:}\cr
 \code{tests}\cr
 \code{ |- Pkg_1               [Pkg_1][1]}\cr
-\code{ |    - funct_01        [Pkg_1][1][funct_01][1] = list( ... )}\cr 
+\code{ |    - funct_01        [Pkg_1][1][funct_01][1] = list( ... )}\cr
 \code{ |- Pkg_1               [Pkg_1][2]}\cr
 \code{ |   |- funct_01        [Pkg_1][2][funct_01][1] = list( ... )}\cr
 \code{ |   |- funct_01        [Pkg_1][2][funct_01][2] = list( ... )}\cr
-\code{ |    - funct_02        [Pkg_1][2][funct_02][1] = list( ... )}\cr 
+\code{ |    - funct_02        [Pkg_1][2][funct_02][1] = list( ... )}\cr
 \code{  - Pkg_2               [Pkg_2][1]}\cr
 \code{      - funct_01        [Pkg_2][1][funct_01][1] = list( ... )}\cr
 }
@@ -40,20 +40,20 @@ ComplexType 'RTestSynopis').}
 
 \item{\code{xml.fPath}}{(\code{character}) Path to XML definition file of the TC.}
 
-\item{\code{xml.root}}{(\code{XMLNode}) The imported TC definition as \code{XMLNode}-class 
+\item{\code{xml.root}}{(\code{XMLNode}) The imported TC definition as \code{XMLNode}-class
 object.}
 
 \item{\code{input.data}}{(\code{list}) The input data of the test case, which will be filled
 using the method \code{\link{readXMLInputData}}.}
 
-\item{\code{tests}}{(\code{list}) A list with the test results or NULL, if the test case 
+\item{\code{tests}}{(\code{list}) A list with the test results or NULL, if the test case
 has not been executed (see 'Details').}
 
 \item{\code{test.for}}{(\code{character}) Names of the packages, which were tested in the last
-execution of the test case. NULL, if the test case has not been 
+execution of the test case. NULL, if the test case has not been
 executed.}
 
-\item{\code{test.result}}{(\code{character}) Result of the last test case execution ('SUCCESS' or 
+\item{\code{test.result}}{(\code{character}) Result of the last test case execution ('SUCCESS' or
 'FAILURE'). NULL, if the test case has not been executed.}
 }}
 

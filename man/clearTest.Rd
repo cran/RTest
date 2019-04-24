@@ -15,7 +15,7 @@
 (\code{\link{RTestCase-class}})
 }
 \description{
-This method resets the test information of the current test case including slots 
+This method resets the test information of the current test case including slots
 \code{'test.for'}, \code{'test.result'} and the cache in the \code{'tests'} test case
 environment.
 }

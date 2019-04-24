@@ -8,6 +8,11 @@
 #                                                                                                 #
 ###################################################################################################
 
+# version 1.2.4 (2019-04-14) #####################################
+
+- wolfs25 Enabled compatibility to testthat 2.1.0 due to issue
+   https://github.com/r-lib/testthat/issues/836
+
 # version 1.2.2 (2018-Dec-10) #######################################
 
 - wolfs25 Added a "generic" test-adapter that can be
@@ -27,7 +32,7 @@
 # Version 1.1.10.0 (2018-Nov-20) ##################################################################
 
 - wolfs25 Cleaned comparison inside tables to show the right reference type (was defect and
-	showed the result type instead of reference type)
+  showed the result type instead of reference type)
 
 # Version 1.1.9.0
 
@@ -35,7 +40,7 @@
 
 # Version 1.1.8.0 (2018-July-03) ##################################################################
 
-- (pfeifem5) test functions for vectors and lists recognize empty data structures  
+- (pfeifem5) test functions for vectors and lists recognize empty data structures
 
 # Version 1.1.7.0 (2018-July-01) ##################################################################
 
@@ -47,7 +52,7 @@
 - wolfs25 no WARNINGs by R CMD CHECK
 - wolfs25 md5 hash calculated for sessionInfo() packages
 - wolfs25 image comparison with ImageMagick 6.9.0-Q8 possible
- 
+
 # Version 1.1.4 (2018-May-16) #####################################################################
 
 - (pfeifem5) xmlWriteData functions will output data with full digits.
@@ -72,19 +77,19 @@
 
 
 # Version 1.1.0 (2017-Nov-23) #####################################################################
-  
+
 - New Functions and major changes
-  - (pfeifem5) New attribute 'label' added to the test case synopsis ('synopsis'>'label') allowing 
+  - (pfeifem5) New attribute 'label' added to the test case synopsis ('synopsis'>'label') allowing
     to flag, mark or group individual test cases in addition to the IDs.
-  - (pfeifem5) test_manualCheck_file: New check function allows manual check of generated output files 
+  - (pfeifem5) test_manualCheck_file: New check function allows manual check of generated output files
     during the execution of the RTest checks. For the user decision a window will open (Tcl/Tk-based).
-    The results of the manual check (i.e. test result plus optional comments) will be included in 
+    The results of the manual check (i.e. test result plus optional comments) will be included in
     the final report.
-  - (pfeifem5) Two additional parameters 'cacheid', 'out.fPathPre' are passed to the test.* functions 
-    of the test adapter. The parameter 'cacheid' defines an identifier for the currently executed tests 
+  - (pfeifem5) Two additional parameters 'cacheid', 'out.fPathPre' are passed to the test.* functions
+    of the test adapter. The parameter 'cacheid' defines an identifier for the currently executed tests
     (i.e. format: 'tf.pkg-tf.pkg.i-tf.func-tf.func.i') and 'out.fPathPre' defines an output path
     prefix for internally generated files. Thereby, the TC id and the cache id are added to the
-    output file name for the generated report.    
+    output file name for the generated report.
   - (wolfs25) Regex comparison is now allowed by setting the compare-type to "regex". This
     feature can be used in data tables, vectors and variables. The user can then
     compare values to a regular expression, which might be helpful for sessionHashes or
@@ -93,73 +98,73 @@
     data frames without checking their values. This can be used to check if rownames
     and colnames and dimensions are right. Might be important for users who want to ignore
     the content inside tables.
-  - (pfeifem5) New functions 'getRTM' and 'getRTMInMatrixShape' added. Function 'getRTM' creates  
-    a 'data.frame' table with the RTM for currently loaded test case collection (RTestCollection-class) 
-    object including the test cases and their version and short description and the assigned 
+  - (pfeifem5) New functions 'getRTM' and 'getRTMInMatrixShape' added. Function 'getRTM' creates
+    a 'data.frame' table with the RTM for currently loaded test case collection (RTestCollection-class)
+    object including the test cases and their version and short description and the assigned
     function specifications and risks. Function 'getRTMInMatrixShape' creates a matrix representation
     showing the assignment of function specifications or risks (y-axis) and the test cases (x-axis).
-    This can be used to visualize the test coverage and the assignment of test cases to risks or 
-    functions.   
-  
-- General Maintenance 
-  - (wolfs25) xmlWriteTest_data.frame_cellbycell: Allow to write the XML test specification with 
-    parameter settings 'data = NULL', which will lead to a general description and not a per-column 
+    This can be used to visualize the test coverage and the assignment of test cases to risks or
+    functions.
+
+- General Maintenance
+  - (wolfs25) xmlWriteTest_data.frame_cellbycell: Allow to write the XML test specification with
+    parameter settings 'data = NULL', which will lead to a general description and not a per-column
     definition of the test specifications.
-  
+
 - Bug-Fixes
-  - (wolfs25) Date formatting in report has been simplified, because it was not robust to all 
-    (customs) formats that can be used for the 'Date' field in R package description files. 
+  - (wolfs25) Date formatting in report has been simplified, because it was not robust to all
+    (customs) formats that can be used for the 'Date' field in R package description files.
   - (wolfs25) Expect equal tolerance was set relative for absolute comparision by:
          scale     = if(test.diffType == "absolute") NULL else exp,
     the help of all.equal says:
-      If scale is positive, absolute comparisons are made after scaling (dividing) by scale. 
+      If scale is positive, absolute comparisons are made after scaling (dividing) by scale.
     We changed the call to:
          scale     = if(test.diffType == "absolute") 1 else NULL
-  
-  
+
+
 # Version 1.0.4 (2017-Apr-26, Matthias Pfeifer) ####################################################
-  
-- General Maintenance 
+
+- General Maintenance
   - Refactor method 'xmlRead.default' allowing to call project-specific data import methods based
     on the XML tag name.
-  
+
 - Bug-Fixes
   - n/a
-  
-  
+
+
 
 # Version 1.0.3 (2017-Mar-28, Matthias Pfeifer) ####################################################
-  
+
 - Requested Features
-  - [CR7813] Result of test functions can be named in "ExecCache" by XML parameter "exec-res-id", 
+  - [CR7813] Result of test functions can be named in "ExecCache" by XML parameter "exec-res-id",
     which improves addressing individual results during execution.
 
-- General Maintenance 
+- General Maintenance
   - Allow definition of identifiers for functional specification ('spec-id') and functional risk
     analysis ('risk-id') for individual check functions. This improves traceability as well as
-    automated generation of the tracebaility matrix for the executed test cases.  
+    automated generation of the tracebaility matrix for the executed test cases.
   - Adapt function 'xmlWriteSynopsis' to current XML RTest-Case specification
   - Add new function 'xmlWriteTest_vector_elementbyelement'
-  
+
 - Bug-Fixes
   - n/a
-    
-    
+
+
 # Version 1.0.2 (2016-08-12, Matthias Pfeifer) ####################################################
-  
+
 - Bug-Fixes
-  - [CR7276] Expectation status "FAILURE" is always shown if the tested testthat expectation 
+  - [CR7276] Expectation status "FAILURE" is always shown if the tested testthat expectation
     not returns 'expectation_success'.
 
 
 # Version 1.0.1 (2016-08-06, Matthias Pfeifer) ####################################################
-  
+
 - Bug-Fixes
   - [CR7227] If multiple package tests for the same package are defined, each iteration is included
-    only once in the final HTML report. In the previous version, these were included 
+    only once in the final HTML report. In the previous version, these were included
     multiple times in the report. Hyperlinks from HTML test summary to test details fixed.
   - [CR7228] Add new input data specification 'RTestData_text', which allows to specify an arbitrary text as
-    dataset directly in the XML file. 
+    dataset directly in the XML file.
 
 
 
