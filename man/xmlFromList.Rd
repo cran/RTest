@@ -22,8 +22,8 @@ it can never write tags with the name "attributes"
 \examples{
 
 root <- XML::newXMLNode("root")
-li <- list(a = list(aa = 1, ab=2), 
-			b=list(ba = 1,
+li <- list(a = list(aa = 1, ab=2),
+      b=list(ba = 1,
                 bb=list(x=4,
                        attributes=c(value=3)),
                bb= 2,
@@ -44,7 +44,7 @@ xmlFromList(root,li)
 #    <bb>2</bb>
 #    <bc>3</bc>
 #  </b>
-#</root> 
+#</root>
 
 }
 \author{

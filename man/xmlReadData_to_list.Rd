@@ -8,12 +8,12 @@ xmlReadData_to_list(xmlItem)
 }
 \arguments{
 \item{xmlItem}{Object of class \code{XMLNode} that defines a list
-   of xmlTags that contain just elements defined in
-RTest XSD (list, variable, text, data.frame, vector)}
+of xmlTags that contain just elements defined in
+ RTest XSD (list, variable, text, data.frame, vector)}
 }
 \value{
-args (\code{list}) All the elements named by their tag and containing 
-		the value defined in the xml
+args (\code{list}) All the elements named by their tag and containing
+    the value defined in the xml
 }
 \description{
 Read an unidentified List of Data Types from TestCase params

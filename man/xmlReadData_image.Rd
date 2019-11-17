@@ -7,7 +7,7 @@
 xmlReadData_image(xmlItem)
 }
 \arguments{
-\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the 
+\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the
 a simple variable and fullfills XSD definition 'xmlReadData_variable'.}
 }
 \value{
@@ -19,9 +19,9 @@ Read XML Data From Type 'xmlReadData_image' as R Variable
 \examples{
 location <- find.package("RTest")
 data <- paste0(
-		'<variable name="myvar" value="',location,
+     '<variable name="myvar" value="',location,
           '/images/Roche_Logo.png" type="character" image="TRUE"/>'
-		)
+     )
 item <- XML::xmlRoot(XML::xmlParse(data,asText=TRUE))
 value <- RTest::xmlReadData_image(item)
 stopifnot(grepl("png",value$address))

@@ -1717,7 +1717,6 @@ setMethod("getExecDetails.html",
                           repores        <- tf.reporter[[repores.i]]
 
                           repores.results.length <- length(repores$results)
-
                           RTest.cat("  ",repores$test,"\n")
 
 #                          message("\n* repores\n")

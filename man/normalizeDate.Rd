@@ -12,7 +12,7 @@ normalizeDate(d, asDate = TRUE, months = c(jan = "january", feb =
 \arguments{
 \item{d}{(\code{character}) The date to be converted.}
 
-\item{asDate}{(\code{boolean}) Return as R "\code{Date}" representation (TRUE) or 
+\item{asDate}{(\code{boolean}) Return as R "\code{Date}" representation (TRUE) or
 as character string (FALSE).}
 
 \item{months}{(\code{object}) The name of the year's month.}

@@ -1,25 +1,25 @@
-## ---- eval = TRUE, echo = FALSE, out.width = "50%",fig.align="center"----
+## ---- eval = TRUE, echo = FALSE, out.width = "50%",fig.align="center"---------
 # All d efaults
 knitr::include_graphics("test_fun.jpg",dpi=NA)
 
-## ---- eval = TRUE, echo = TRUE-------------------------------------------
+## ---- eval = TRUE, echo = TRUE------------------------------------------------
 ## Define the functions to be tested
 test_fun <- function(dat, mult) {   cbind(dat, "sum" = apply(dat, 1, sum)*mult) }
 
 # assign global to work inside vignette
 assign("test_fun", test_fun, envir = .GlobalEnv)
 
-## ---- eval = TRUE, echo = TRUE-------------------------------------------
+## ---- eval = TRUE, echo = TRUE------------------------------------------------
 
 my_data <- data.frame(x=c(1,2),y=c(1,2))
 
 RTest::xmlWriteData_data.frame("data.frame",my_data,"test01")
 
 
-## ---- eval = TRUE, echo = FALSE------------------------------------------
+## ---- eval = TRUE, echo = FALSE-----------------------------------------------
 library(RTest)
 
-## ---- eval = TRUE, echo = TRUE-------------------------------------------
+## ---- eval = TRUE, echo = TRUE------------------------------------------------
 # Create test adapter
 setClass(
 		Class          = "TestPackageTestCase",
@@ -68,7 +68,7 @@ RTest::setTestMethod(
 
 
 
-## ---- eval = TRUE, echo = TRUE, message = FALSE--------------------------
+## ---- eval = TRUE, echo = TRUE, message = FALSE-------------------------------
 # Create test collection
 testCollection <- new("RTestCollection", 
 		project.name    = "RTest Vignette", 
@@ -83,13 +83,13 @@ testCollection <- importTCsFromDir(testCollection,
 		xml.dPath = TCDir,f.pattern="RTest_TC-01.xml")
 
 
-## ---- eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE-----------
+## ---- eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE----------------
 outf <- tempfile(fileext=".html")
 
 # Execute test cases
 testCollection <- exec(testCollection, out.fPath = outf, open=FALSE)
 
-## ---- eval = TRUE, echo = FALSE------------------------------------------
+## ---- eval = TRUE, echo = FALSE-----------------------------------------------
 # All defaults
 knitr::include_graphics("report.jpg",dpi=NA)
 

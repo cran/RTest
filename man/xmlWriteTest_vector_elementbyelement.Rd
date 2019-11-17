@@ -13,7 +13,7 @@ xmlWriteTest_vector_elementbyelement(elemname = "return-value",
 
 \item{testname}{(\code{character}) The testname}
 
-\item{data}{(\code{data.frame}) The reference data for which the test should be 
+\item{data}{(\code{data.frame}) The reference data for which the test should be
 written.}
 
 \item{test}{(\code{ANY}) Named vector with test, single entry if same for all.}

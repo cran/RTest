@@ -38,4 +38,3 @@
 #'
 #' @name RTest
 NULL
-

@@ -7,21 +7,21 @@
 xmlRead.default(xmlItem)
 }
 \arguments{
-\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the 
+\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the
 a list object and fullfills XSD definition 'xmlReadData_list'.}
 }
 \value{
-(\code{data.frame}) or (\code{variable}) or (\code{vector}) or a named list of 
+(\code{data.frame}) or (\code{variable}) or (\code{vector}) or a named list of
   all imported input datasets.
 }
 \description{
 This function controls the import of input data set.
 }
 \details{
-Based on the tag name of the input data definition in the XML file, the corresponding 
+Based on the tag name of the input data definition in the XML file, the corresponding
 \code{readXMLData_*} function is called, whereby \code{*} is a placeholder for the data type
-definition in the XML scheme. For example, for XML definitions following the \code{data.frame} 
-specification, a function \code{readXMLData_data.frame <- function(xmlDataItem)} is expected, 
+definition in the XML scheme. For example, for XML definitions following the \code{data.frame}
+specification, a function \code{readXMLData_data.frame <- function(xmlDataItem)} is expected,
 which implements the XML parser for \code{data.frame}s and returns the data as R object.
 }
 \examples{

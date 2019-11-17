@@ -41,7 +41,11 @@ quasi_capture <- function(quo, capture, label = NULL) {
 
     quasi_capture <-  "testthat" %:::% "quasi_capture"
 
-    return(quasi_capture(.quo=quo, .capture=capture, .label = deparse(quo)))
+    if (".quo" %in% formalArgs(quasi_capture)) {
+      return(quasi_capture(.quo=quo, .capture=capture, .label = deparse(quo)))
+    } else {
+      return(quasi_capture(quo=quo, capture=capture, label = deparse(quo)))
+    }
   }else{
 
       act <- list()
@@ -158,4 +162,34 @@ expect_gt <- function(...){
   }else{
     testthat::expect_more_than(...)
   }
+}
+
+#' testthat expect fun
+#'
+#' @export
+#' @param ok (\code{logcal}) Whether code was ok
+#' @param failure_message \code{character} What error cane out
+#' @param info (\code{list}) List of infos given for execution
+#' @param srcref (\code{call}) Call that was executed
+expect_testthat <- function(ok, failure_message, info = NULL, srcref = NULL) {
+  type <- if (ok) "success" else "failure"
+
+  # Preserve existing API which appear to be used in package test code
+  # Can remove in next major release
+  if (missing(failure_message)) {
+    rlang::warn("`failure_message` is missing, with no default.")
+    message <- "unknown failure"
+  } else {
+    # A few packages include code in info that errors on evaluation
+    message <- paste(c(failure_message, info), collapse = "\n")
+  }
+
+  exp <- testthat::expectation(type, message, srcref = srcref)
+
+  withRestarts(
+      if (ok) signalCondition(exp) else stop(exp),
+      continue_test = function(e) NULL
+  )
+
+  invisible(exp)
 }

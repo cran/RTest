@@ -352,12 +352,12 @@ test_that("RTestCollection getRTM",{
 
   # Nicely shaped RTM
   new_rtm <- data.frame(
-      "SpecIDs"=c("RTest:2","3;secondpackage:1"),
+      "SpecIDs"=c("3;secondpackage:1","RTest:2"),
       "RTest_TC-01"=c("",""),
       "RTest_TC-03"=c("x","x"),
       stringsAsFactors = F,check.names = F)
 
-  row.names(new_rtm) <- c("RTest:2","3;secondpackage:1")
+  row.names(new_rtm) <- c("3;secondpackage:1", "RTest:2")
 
   expect_equal(new_rtm,
       getRTMInMatrixShape(testCollection))

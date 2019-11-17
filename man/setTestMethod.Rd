@@ -10,25 +10,25 @@ setTestMethod(f, signature = "RTestCase", definition = function(object,
 \arguments{
 \item{f}{(\code{character}) The name of the function.}
 
-\item{signature}{(\code{character}) The name of the corresponding test case adapter 
+\item{signature}{(\code{character}) The name of the corresponding test case adapter
 (i.e. the name of the class, which inherits 'RTestCase' and implements
 all functions associated to a test case type and specifications).}
 
-\item{definition}{(\code{function}) The method, which will be called if the signature 
+\item{definition}{(\code{function}) The method, which will be called if the signature
 matches the definitions (see 'Details').}
 
 \item{where}{(\code{env}) An environment where to set up the Method}
 }
 \description{
 This function creates and saves a default test method for a RTest adapter with predefined
-arguments (see 'Details'). It will automatically create the generic as well as the method 
+arguments (see 'Details'). It will automatically create the generic as well as the method
 for the test case class using S4 style.
 }
 \details{
 This function is a wrapper for standardized and simplified creation of S4-syle test case
-adapters required for RTest. The passed function has to be assigned to the corresponding test 
-case class, whichinherits \code{\link{RTestCollection-class}}) and represents the adapter for 
-the respecive implementation of a test case type (i.e. XSD scheme). The passed function 
+adapters required for RTest. The passed function has to be assigned to the corresponding test
+case class, whichinherits \code{\link{RTestCollection-class}}) and represents the adapter for
+the respecive implementation of a test case type (i.e. XSD scheme). The passed function
 definition has to be in the following format with the following parameters.
 \code{function(object, inputData, execCache, xmlDef, ... ) {
   # implementation goes here
@@ -36,9 +36,9 @@ definition has to be in the following format with the following parameters.
 \itemize{
   \item{\code{object}}{(\code{object}) The \code{\link{RTestCase-class}} object.}
   \item{\code{inputData}}{(\code{list}) List with all input data provided in the XML test case.}
-  \item{\code{execCache}}{(\code{list}) List with cached results determined in the predecessor 
+  \item{\code{execCache}}{(\code{list}) List with cached results determined in the predecessor
     test functions of a test case execution.}
-  \item{\code{xmlDef}}{(\code{XMLNode}) An object of class \code{XMLNode}, which defines the 
+  \item{\code{xmlDef}}{(\code{XMLNode}) An object of class \code{XMLNode}, which defines the
     current test function.}
   \item{\code{...}}{Additional parameters passed to the individual test functions.}
 }

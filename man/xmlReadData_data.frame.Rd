@@ -7,7 +7,7 @@
 xmlReadData_data.frame(xmlItem, na_to_none = FALSE)
 }
 \arguments{
-\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the 
+\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the
 a data frame and fullfills XSD definition 'xmlReadData_data.frame'.}
 
 \item{na_to_none}{(\code{logical}) Convert NAs to empty characters (i.e. '').}

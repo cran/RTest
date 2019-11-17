@@ -104,16 +104,29 @@ setTestMethod(
 #' @author Sebastian Wolf \email{sebastian@@mail-wolf.de}
 arguments_creator <- function(parameters_xml_definition, input_data=NULL){
   all_arguments <- list()
-
   if("RTestData_input_data" %in% names(parameters_xml_definition)){
     if(!is.null(input_data)){
-      all_arguments[[
-          xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["param"]
-      ]] <- input_data[[
-              xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["name"]
-          ]]
+      if (is.na(xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["column"])) {
+        all_arguments[[
+            xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["param"]
+        ]] <- input_data[[
+                xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["name"]
+            ]]
+      } else {
+        all_arguments[[
+            xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["param"]
+        ]] <- input_data[[
+                xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["name"]
+            ]][, xmlAttrs(parameters_xml_definition[["RTestData_input_data"]])["column"]]
+      }
       # Delete the input data parameters
-      parameters_xml_definition[["RTestData_input_data"]] <- NULL
+      parameters_xml_definition <- tryCatch(
+          XML::removeChildren(parameters_xml_definition, parameters_xml_definition[["RTestData_input_data"]]),
+          error = function(e){
+            intermediate <- parameters_xml_definition
+            intermediate[["RTestData_input_data"]] <- NULL
+            return(intermediate)
+          })
     }else{
       stop("Cannot read RTestData_input_data if no innput-data node was provided.")
     }

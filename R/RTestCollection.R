@@ -611,7 +611,7 @@ setMethod("writeExecSummary.html",
           if(file.exists(file.path(find.package("RTest"),"css/style.css")))
             file.path(find.package("RTest"),"css/style.css")
           else
-            file.path(find.package("RTest"),"css/style.css")
+            file.path(find.package("RTest"),"inst/css/style.css")
 
       out <- c(out, readLines(css.fPath))
       out.append("  </style>")
@@ -629,7 +629,7 @@ setMethod("writeExecSummary.html",
             if(file.exists(file.path(find.package("RTest"),"/images/roche-logo.png")))
               file.path(find.package("RTest"),"/images/roche-logo.png")
             else
-              file.path(find.package("RTest"),"/images/roche-logo.png")
+              file.path(find.package("RTest"),"/inst/images/roche-logo.png")
       } else {
         img.fPath <- logo
       }
@@ -941,7 +941,9 @@ setMethod("getRTMInMatrixShape",
 
       rownames(res) <- res[,1]
 
-
+      res <- res[
+          order(rownames(res))
+          , c(1, order(colnames(res)[-1]) + 1)]
       # Return output  ------------------------------------------------------------------------------
 
       return(res)

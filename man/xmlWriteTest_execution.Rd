@@ -12,7 +12,7 @@ xmlWriteTest_execution(elemname = "execution", desc = NULL,
 
 \item{desc}{(\code{character}) The testname}
 
-\item{executionType}{(\code{character}) The execution mode to be checked (i.e. 'silent', 
+\item{executionType}{(\code{character}) The execution mode to be checked (i.e. 'silent',
 'warning', 'error').}
 
 \item{printXML}{(\code{logical}) Print output or return xml as R object}

@@ -10,12 +10,12 @@ png2base64(file, img.returnAsTag = FALSE, img.title = "image",
 \arguments{
 \item{file}{(\code{character}) Path to PNG image.}
 
-\item{img.returnAsTag}{(\code{boolean})    TRUE, img is returned as HTML \code{img}-tag; FALSE,
+\item{img.returnAsTag}{(\code{boolean})  TRUE, img is returned as HTML \code{img}-tag; FALSE,
 raw image base64 content is returned.}
 
-\item{img.title}{(\code{character})    Title of the HTML \code{img}-tag.}
+\item{img.title}{(\code{character})  Title of the HTML \code{img}-tag.}
 
-\item{img.width}{(\code{character})    With for HTML \code{img}-tag.}
+\item{img.width}{(\code{character})  With for HTML \code{img}-tag.}
 }
 \value{
 See paramter \code{img.returnAsTag}.
@@ -25,7 +25,7 @@ This function creates a base64 string of a PNG  (e.g. png) directly into HTML vi
 the data function.
 }
 \details{
-The input file is read and a base64 string encoded The returned file is the value of the 
+The input file is read and a base64 string encoded The returned file is the value of the
 \code{img} attribute \code{src}.
 }
 \author{

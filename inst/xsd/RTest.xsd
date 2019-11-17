@@ -1,741 +1,746 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2017 rel. 3 sp1 (x64) (http://www.altova.com) by Sebastian Wolf (Roche Diagnostics GmbH) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:ns="1" xmlns:ns1="2" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
-	<xs:complexType name="RTestData">
-		<xs:annotation>
-			<xs:documentation>Minimal Definition for RTestData</xs:documentation>
-		</xs:annotation>
-	</xs:complexType>
-	<xs:complexType name="RTestData_text" mixed="true">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R variable objects from text input</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="type" type="xs:string"/>
-	</xs:complexType>
-	<xs:complexType name="RTestData_variable">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R variable objects</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="value" use="required"/>
-		<xs:attribute name="type" type="xs:string"/>
-	</xs:complexType>
-	<xs:complexType name="RTestData_image">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R variable objects</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="value" use="required"/>
-		<xs:attribute name="type" use="required">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:pattern value="character"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="image" use="required">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="TRUE"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="exec_value">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="TRUE"/>
-					<xs:enumeration value="FALSE"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="RTestData_vector">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R vector objects</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="element" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:simpleContent>
-						<xs:extension base="xs:string">
-							<xs:attribute name="name" type="xs:string"/>
-						</xs:extension>
-					</xs:simpleContent>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:pattern value="numeric"/>
-					<xs:pattern value="character"/>
-					<xs:pattern value="logical"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="RTestData_data.frame">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R data.frame objects</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="col-defs">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="coldef" maxOccurs="unbounded">
-							<xs:complexType>
-								<xs:attribute name="name" type="xs:string" use="required"/>
-								<xs:attribute name="type" use="optional">
-									<xs:simpleType>
-										<xs:restriction base="xs:string">
-											<xs:pattern value="numeric"/>
-											<xs:pattern value="character"/>
-											<xs:pattern value="logical"/>
-											<xs:pattern value="factor"/>
-										</xs:restriction>
-									</xs:simpleType>
-								</xs:attribute>
-							</xs:complexType>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="row" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="cell" maxOccurs="unbounded"/>
-					</xs:sequence>
-					<xs:attribute name="name" type="xs:string"/>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="RTestData_list">
-		<xs:annotation>
-			<xs:documentation>Generic definition of R list objects</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="RTestData">
-				<xs:sequence>
-					<xs:choice maxOccurs="unbounded">
-						<xs:element name="variable" minOccurs="0">
-							<xs:complexType>
-								<xs:complexContent>
-									<xs:extension base="RTestData_variable">
-										<xs:attribute name="name" type="xs:string"/>
-									</xs:extension>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="vector" minOccurs="0">
-							<xs:complexType>
-								<xs:complexContent>
-									<xs:extension base="RTestData_vector">
-										<xs:attribute name="name" type="xs:string"/>
-									</xs:extension>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="data.frame" minOccurs="0">
-							<xs:complexType>
-								<xs:complexContent>
-									<xs:extension base="RTestData_data.frame">
-										<xs:attribute name="name" type="xs:string"/>
-									</xs:extension>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="image" minOccurs="0">
-							<xs:complexType>
-								<xs:complexContent>
-									<xs:extension base="RTestData_image">
-										<xs:attribute name="name" type="xs:string"/>
-									</xs:extension>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="list" minOccurs="0">
-							<xs:complexType>
-								<xs:complexContent>
-									<xs:extension base="RTestData_list">
-										<xs:attribute name="name" type="xs:string"/>
-									</xs:extension>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-					</xs:choice>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_execution">
-		<xs:annotation>
-			<xs:documentation>Test execution of function</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="execution-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="silent"/>
-					<xs:enumeration value="warning"/>
-					<xs:enumeration value="message"/>
-					<xs:enumeration value="output"/>
-					<xs:enumeration value="error"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_variable">
-		<xs:annotation>
-			<xs:documentation>Test the value of a R variable</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="diff-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="absolute"/>
-					<xs:enumeration value="relative"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="compare-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="equal"/>
-					<xs:enumeration value="less_than"/>
-					<xs:enumeration value="more_than"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="tolerance" type="xs:float"/>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_data.frame_cellbycell">
-		<xs:annotation>
-			<xs:documentation>Test each cell of R data.frame object</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="diff-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="absolute"/>
-								<xs:enumeration value="relative"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="compare-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="equal"/>
-								<xs:enumeration value="less_than"/>
-								<xs:enumeration value="more_than"/>
-								<xs:enumeration value="more_than"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="tolerance" type="xs:float"/>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="diff-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="absolute"/>
-					<xs:enumeration value="relative"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="compare-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="equal"/>
-					<xs:enumeration value="less_than"/>
-					<xs:enumeration value="more_than"/>
-					<xs:enumeration value="regex"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="tolerance" type="xs:float"/>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_data.frame_shape">
-		<xs:annotation>
-			<xs:documentation>Test each cell of R data.frame object</xs:documentation>
-		</xs:annotation>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="diff-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="absolute"/>
-					<xs:enumeration value="relative"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="compare-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="equal"/>
-					<xs:enumeration value="less_than"/>
-					<xs:enumeration value="more_than"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="tolerance" type="xs:float"/>
-		<xs:attribute name="check_colnames" type="xs:boolean"/>
-		<xs:attribute name="check_rownames" type="xs:boolean"/>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_list_nodebynode">
-		<xs:annotation>
-			<xs:documentation>Test each node of R list object</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="element" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="diff-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="absolute"/>
-								<xs:enumeration value="relative"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="compare-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="equal"/>
-								<xs:enumeration value="less_than"/>
-								<xs:enumeration value="more_than"/>
-								<xs:enumeration value="more_than"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="tolerance" type="xs:float"/>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="diff-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="absolute"/>
-					<xs:enumeration value="relative"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="compare-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="equal"/>
-					<xs:enumeration value="less_than"/>
-					<xs:enumeration value="more_than"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="tolerance" type="xs:float"/>
-	</xs:complexType>
-	<xs:complexType name="RTestTest_vector_elementbyelement">
-		<xs:annotation>
-			<xs:documentation>Test each element of R vector object</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="element" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="diff-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:enumeration value="absolute"/>
-								<xs:enumeration value="relative"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="compare-type">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:pattern value="eq"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:attribute>
-					<xs:attribute name="tolerance" type="xs:float"/>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-		<xs:attribute name="desc" type="xs:string"/>
-		<xs:attribute name="tolerance" type="xs:float"/>
-		<xs:attribute name="diff-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:pattern value="absolute"/>
-					<xs:pattern value="relative"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-		<xs:attribute name="compare-type">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:pattern value="equal"/>
-					<xs:pattern value="less_than"/>
-					<xs:pattern value="more_than"/>
-					<xs:pattern value="regex"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="RTestSynopsis">
-		<xs:annotation>
-			<xs:documentation>Metainformations of TC</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="version" type="xs:string"/>
-			<xs:sequence maxOccurs="unbounded">
-				<xs:element name="author" type="xs:string"/>
-			</xs:sequence>
-			<xs:element name="short-description" minOccurs="0"/>
-			<xs:element name="description" minOccurs="0"/>
-			<xs:element name="label" minOccurs="0"/>
-			<xs:element name="creation-date" type="xs:date" minOccurs="0"/>
-			<xs:element name="change-history">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="change" maxOccurs="unbounded">
-							<xs:complexType>
-								<xs:simpleContent>
-									<xs:extension base="xs:string">
-										<xs:attribute name="author" type="xs:string" use="required"/>
-										<xs:attribute name="date" type="xs:date" use="required"/>
-									</xs:extension>
-								</xs:simpleContent>
-							</xs:complexType>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="RTestCase">
-		<xs:annotation>
-			<xs:documentation>Template TC Definition</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="ID" type="xs:string"/>
-				<xs:element name="synopsis" type="RTestSynopsis"/>
-				<xs:element name="input-data">
-					<xs:complexType>
-						<xs:choice minOccurs="0" maxOccurs="unbounded">
-							<xs:element name="variable">
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="RTestData_variable">
-											<xs:attribute name="name" type="xs:string" use="required"/>
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="vector">
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="RTestData_vector">
-											<xs:attribute name="name" type="xs:string" use="required"/>
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="data.frame">
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="RTestData_data.frame">
-											<xs:attribute name="name" type="xs:string" use="required"/>
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="list">
-								<xs:complexType>
-									<xs:complexContent>
-										<xs:extension base="RTestData_list">
-											<xs:attribute name="name" type="xs:string" use="required"/>
-										</xs:extension>
-									</xs:complexContent>
-								</xs:complexType>
-							</xs:element>
-						</xs:choice>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="tests">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Pkg_1" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="funct_01">
-											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="params">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="mult" type="RTestData_variable"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-													<xs:element name="reference" type="RTestData_data.frame"/>
-													<xs:element name="testspec">
-														<xs:complexType>
-															<xs:sequence>
-																<xs:element name="execution" type="RTestTest_execution"/>
-																<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
-																<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-															</xs:sequence>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
-												<xs:attribute name="test-desc" type="xs:string"/>
-												<xs:attribute name="exec-res-id" type="xs:string"/>
-												<xs:attribute name="spec-id" type="xs:string"/>
-												<xs:attribute name="risk-id" type="xs:string"/>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-									<xs:attribute name="test-desc" type="xs:string"/>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="RTest" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:choice maxOccurs="unbounded">
-											<xs:element name="funct_02">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element ref="RTestData_input_data"/>
-																	<xs:element name="mult" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_data.frame"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="funct_01">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="mult" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_data.frame"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="example_data_frame">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element ref="RTestData_input_data"/>
-																	<xs:element name="mult" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_data.frame"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="example_image">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="name" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_image"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="example_list">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="name_1" type="RTestData_variable"/>
-																	<xs:element name="value_2" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_list"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_list_nodebynode" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="example_vector">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="rep" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_vector"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_vector_elementbyelement" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="example_variable">
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="params">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="x" type="RTestData_variable"/>
-																	<xs:element name="y" type="RTestData_variable"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="reference" type="RTestData_variable"/>
-														<xs:element name="testspec">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="execution" type="RTestTest_execution"/>
-																	<xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
-																	<xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-													<xs:attribute name="test-desc" type="xs:string"/>
-													<xs:attribute name="exec-res-id" type="xs:string"/>
-													<xs:attribute name="spec-id" type="xs:string"/>
-													<xs:attribute name="risk-id" type="xs:string"/>
-												</xs:complexType>
-											</xs:element>
-										</xs:choice>
-									</xs:sequence>
-									<xs:attribute name="test-desc" type="xs:string"/>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:complexType name="RTestTest_manualCheck_file">
-		<xs:attribute name="desc"/>
-	</xs:complexType>
-	<xs:element name="RTestData_input_data">
-		<xs:complexType>
-			<xs:attribute name="param" type="xs:string" use="required">
-				<xs:annotation>
-					<xs:documentation>which parameter the value shall go into</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="name" type="xs:string" use="required">
-				<xs:annotation>
-					<xs:documentation>which input variable to take</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="type">
-				<xs:annotation>
-					<xs:documentation>you can redefine as what kind of value the variable shall be read</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:pattern value="data.frame"/>
-						<xs:pattern value="variable"/>
-						<xs:pattern value="vector"/>
-						<xs:pattern value="list"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
+  <xs:complexType name="RTestData">
+    <xs:annotation>
+      <xs:documentation>Minimal Definition for RTestData</xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+  <xs:complexType name="RTestData_text" mixed="true">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R variable objects from text input</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="type" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="RTestData_variable">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R variable objects</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="value" use="required"/>
+    <xs:attribute name="type" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="RTestData_image">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R variable objects</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="value" use="required"/>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="character"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="image" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TRUE"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="exec_value">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TRUE"/>
+          <xs:enumeration value="FALSE"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="RTestData_vector">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R vector objects</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="element" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="name" type="xs:string"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="numeric"/>
+          <xs:pattern value="character"/>
+          <xs:pattern value="logical"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="RTestData_data.frame">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R data.frame objects</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="col-defs">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="coldef" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="type" use="optional">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:pattern value="numeric"/>
+                      <xs:pattern value="character"/>
+                      <xs:pattern value="logical"/>
+                      <xs:pattern value="factor"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="cell" maxOccurs="unbounded"/>
+          </xs:sequence>
+          <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RTestData_list">
+    <xs:annotation>
+      <xs:documentation>Generic definition of R list objects</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="RTestData">
+        <xs:sequence>
+          <xs:choice maxOccurs="unbounded">
+            <xs:element name="variable" minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="RTestData_variable">
+                    <xs:attribute name="name" type="xs:string"/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="vector" minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="RTestData_vector">
+                    <xs:attribute name="name" type="xs:string"/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="data.frame" minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="RTestData_data.frame">
+                    <xs:attribute name="name" type="xs:string"/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="image" minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="RTestData_image">
+                    <xs:attribute name="name" type="xs:string"/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="list" minOccurs="0">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="RTestData_list">
+                    <xs:attribute name="name" type="xs:string"/>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_execution">
+    <xs:annotation>
+      <xs:documentation>Test execution of function</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="execution-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="silent"/>
+          <xs:enumeration value="warning"/>
+          <xs:enumeration value="message"/>
+          <xs:enumeration value="output"/>
+          <xs:enumeration value="error"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_variable">
+    <xs:annotation>
+      <xs:documentation>Test the value of a R variable</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="diff-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="absolute"/>
+          <xs:enumeration value="relative"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="compare-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="equal"/>
+          <xs:enumeration value="less_than"/>
+          <xs:enumeration value="more_than"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="tolerance" type="xs:float"/>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_data.frame_cellbycell">
+    <xs:annotation>
+      <xs:documentation>Test each cell of R data.frame object</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="column" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+          <xs:attribute name="diff-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="absolute"/>
+                <xs:enumeration value="relative"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="compare-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="equal"/>
+                <xs:enumeration value="less_than"/>
+                <xs:enumeration value="more_than"/>
+                <xs:enumeration value="more_than"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="tolerance" type="xs:float"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="diff-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="absolute"/>
+          <xs:enumeration value="relative"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="compare-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="equal"/>
+          <xs:enumeration value="less_than"/>
+          <xs:enumeration value="more_than"/>
+          <xs:enumeration value="regex"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="tolerance" type="xs:float"/>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_data.frame_shape">
+    <xs:annotation>
+      <xs:documentation>Test each cell of R data.frame object</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="diff-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="absolute"/>
+          <xs:enumeration value="relative"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="compare-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="equal"/>
+          <xs:enumeration value="less_than"/>
+          <xs:enumeration value="more_than"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="tolerance" type="xs:float"/>
+    <xs:attribute name="check_colnames" type="xs:boolean"/>
+    <xs:attribute name="check_rownames" type="xs:boolean"/>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_list_nodebynode">
+    <xs:annotation>
+      <xs:documentation>Test each node of R list object</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="element" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+          <xs:attribute name="diff-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="absolute"/>
+                <xs:enumeration value="relative"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="compare-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="equal"/>
+                <xs:enumeration value="less_than"/>
+                <xs:enumeration value="more_than"/>
+                <xs:enumeration value="more_than"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="tolerance" type="xs:float"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="diff-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="absolute"/>
+          <xs:enumeration value="relative"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="compare-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="equal"/>
+          <xs:enumeration value="less_than"/>
+          <xs:enumeration value="more_than"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="tolerance" type="xs:float"/>
+  </xs:complexType>
+  <xs:complexType name="RTestTest_vector_elementbyelement">
+    <xs:annotation>
+      <xs:documentation>Test each element of R vector object</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="element" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+          <xs:attribute name="diff-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="absolute"/>
+                <xs:enumeration value="relative"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="compare-type">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:pattern value="eq"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="tolerance" type="xs:float"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="desc" type="xs:string"/>
+    <xs:attribute name="tolerance" type="xs:float"/>
+    <xs:attribute name="diff-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="absolute"/>
+          <xs:pattern value="relative"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="compare-type">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="equal"/>
+          <xs:pattern value="less_than"/>
+          <xs:pattern value="more_than"/>
+          <xs:pattern value="regex"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="RTestSynopsis">
+    <xs:annotation>
+      <xs:documentation>Metainformations of TC</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="version" type="xs:string"/>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="author" type="xs:string"/>
+      </xs:sequence>
+      <xs:element name="short-description" minOccurs="0"/>
+      <xs:element name="description" minOccurs="0"/>
+      <xs:element name="label" minOccurs="0"/>
+      <xs:element name="creation-date" type="xs:date" minOccurs="0"/>
+      <xs:element name="change-history">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="change" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension base="xs:string">
+                    <xs:attribute name="author" type="xs:string" use="required"/>
+                    <xs:attribute name="date" type="xs:date" use="required"/>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RTestCase">
+    <xs:annotation>
+      <xs:documentation>Template TC Definition</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ID" type="xs:string"/>
+        <xs:element name="synopsis" type="RTestSynopsis"/>
+        <xs:element name="input-data">
+          <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="variable">
+                <xs:complexType>
+                  <xs:complexContent>
+                    <xs:extension base="RTestData_variable">
+                      <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:complexContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="vector">
+                <xs:complexType>
+                  <xs:complexContent>
+                    <xs:extension base="RTestData_vector">
+                      <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:complexContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="data.frame">
+                <xs:complexType>
+                  <xs:complexContent>
+                    <xs:extension base="RTestData_data.frame">
+                      <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:complexContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="list">
+                <xs:complexType>
+                  <xs:complexContent>
+                    <xs:extension base="RTestData_list">
+                      <xs:attribute name="name" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:complexContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tests">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Pkg_1" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="funct_01">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="params">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="mult" type="RTestData_variable"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="reference" type="RTestData_data.frame"/>
+                          <xs:element name="testspec">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="execution" type="RTestTest_execution"/>
+                                <xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+                                <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="test-desc" type="xs:string"/>
+                        <xs:attribute name="exec-res-id" type="xs:string"/>
+                        <xs:attribute name="spec-id" type="xs:string"/>
+                        <xs:attribute name="risk-id" type="xs:string"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="test-desc" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="RTest" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:choice maxOccurs="unbounded">
+                      <xs:element name="funct_02">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element ref="RTestData_input_data"/>
+                                  <xs:element name="mult" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_data.frame"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="funct_01">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="mult" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_data.frame"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="example_data_frame">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element ref="RTestData_input_data"/>
+                                  <xs:element name="mult" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_data.frame"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_data.frame_cellbycell" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="example_image">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="name" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_image"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="example_list">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="name_1" type="RTestData_variable"/>
+                                  <xs:element name="value_2" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_list"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_list_nodebynode" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="example_vector">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="rep" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_vector"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_vector_elementbyelement" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                      <xs:element name="example_variable">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="params">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="x" type="RTestData_variable"/>
+                                  <xs:element name="y" type="RTestData_variable"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="reference" type="RTestData_variable"/>
+                            <xs:element name="testspec">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="execution" type="RTestTest_execution"/>
+                                  <xs:element name="return-value" type="RTestTest_variable" minOccurs="0"/>
+                                  <xs:element name="manual-check-file" type="RTestTest_manualCheck_file" minOccurs="0"/>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                          <xs:attribute name="test-desc" type="xs:string"/>
+                          <xs:attribute name="exec-res-id" type="xs:string"/>
+                          <xs:attribute name="spec-id" type="xs:string"/>
+                          <xs:attribute name="risk-id" type="xs:string"/>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:choice>
+                  </xs:sequence>
+                  <xs:attribute name="test-desc" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RTestTest_manualCheck_file">
+    <xs:attribute name="desc"/>
+  </xs:complexType>
+  <xs:element name="RTestData_input_data">
+    <xs:complexType>
+      <xs:attribute name="param" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>which parameter the value shall go into</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>which input variable to take</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="column" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>which input variable to take</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="type">
+        <xs:annotation>
+          <xs:documentation>you can redefine as what kind of value the variable shall be read</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="data.frame"/>
+            <xs:pattern value="variable"/>
+            <xs:pattern value="vector"/>
+            <xs:pattern value="list"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

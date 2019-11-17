@@ -26,7 +26,7 @@ do not neccesarily have to provide a test-adapter. RTest also provides
 you with a "generic" test adapter that will check the values inside
 your XML file and see what you want to test.
 
-The XML file contains the parameters and reference values and 
+The XML file contains the parameters and reference values and
 the function you want to call. The function name can be the
 package function name or the test-adapter method name. All three
 combined make the call
@@ -52,14 +52,14 @@ be found under: [RTest_TC-generic.xml](RTest_TC-generic.xml)
 
 ## Functions to test
 
-To show you how you can test some simple functions, a test collection 
+To show you how you can test some simple functions, a test collection
 was prepared as an example. We want to test 5 functions:
 
 1) `example_data_frame` - Adding up rowwise and multiplying the values
   by a parameter called `mult`.
 2) `example_image` - Returning the Roche Logo as a PNG by returning
      a path
-3) `example_list` - Creates a list with one element called by the `name_1` 
+3) `example_list` - Creates a list with one element called by the `name_1`
    input parameter with the value "VALUE1", an element valled "NAME2" with the
    value of the `value_2` parameter and an element called "data.frame"
    with a two column data.frame
@@ -73,49 +73,49 @@ call them from within the package.
 ## Test Case basics - XML
 
 
-First an empty test case in RTest contains a synopsis and input-data: 
+First an empty test case in RTest contains a synopsis and input-data:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
-<RTestCase 
+<RTestCase
 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 xsi:noNamespaceSchemaLocation="../xsd/RTest.xsd">
-	<ID>RTest_TC-01</ID>
-	<synopsis>
-		<version>01</version>
-		<author>Matthias Pfeifer</author>
-		<short-description>RTest Template TC</short-description>
-		<description>
+  <ID>RTest_TC-01</ID>
+  <synopsis>
+    <version>01</version>
+    <author>Matthias Pfeifer</author>
+    <short-description>RTest Template TC</short-description>
+    <description>
     <![CDATA[
     Extended Description of the test case allowing also <some><special>/characters
     ]]>
-		</description>
-		<creation-date>2016-01-25</creation-date>
-		<change-history>
-			<change author="Matthias Pfeifer" date="2016-01-25">Initial Version</change>
-		</change-history>
-	</synopsis>
-	<input-data>
-		<data.frame name="test01">
-			<col-defs>
-				<coldef name="x" type="numeric" />
-				<coldef name="y" type="numeric" />
-			</col-defs>
-			<row>
-				<cell>1</cell>
-				<cell>2</cell>
-			</row>
-			<row>
-				<cell>1</cell>
-				<cell>2</cell>
-			</row>
-		</data.frame>
-	</input-data>
-	<tests>
-		...
-	</tests>
+    </description>
+    <creation-date>2016-01-25</creation-date>
+    <change-history>
+      <change author="Matthias Pfeifer" date="2016-01-25">Initial Version</change>
+    </change-history>
+  </synopsis>
+  <input-data>
+    <data.frame name="test01">
+      <col-defs>
+        <coldef name="x" type="numeric" />
+        <coldef name="y" type="numeric" />
+      </col-defs>
+      <row>
+        <cell>1</cell>
+        <cell>2</cell>
+      </row>
+      <row>
+        <cell>1</cell>
+        <cell>2</cell>
+      </row>
+    </data.frame>
+  </input-data>
+  <tests>
+    ...
+  </tests>
 </RTestCase>
 
 ```
@@ -145,18 +145,18 @@ To test the example_data_frame we want to use the `input-data` part
 
 ```
 <example_data_frame test-desc="Test data.frame">
-				<params>
-					<RTestData_input_data param="data" name="test01" />
-					<mult value="1" type="numeric" />
-				</params>
-				...
-			</example_data_frame>
+        <params>
+          <RTestData_input_data param="data" name="test01" />
+          <mult value="1" type="numeric" />
+        </params>
+        ...
+      </example_data_frame>
 
 ```
 
 You can see that the `RTestData_input_data` grabs the `test01` element
-from `input-data` and hands it over to the `data` argument of 
-`example_data_frame`. Additionally we create a parameter called `mult` 
+from `input-data` and hands it over to the `data` argument of
+`example_data_frame`. Additionally we create a parameter called `mult`
 with value 1.
 
 Now we want to define a reference data.frame inside the XML and tell
@@ -164,36 +164,36 @@ that the function shall be executed silently:
 
 ```
 <example_data_frame test-desc="Test data.frame">
-	<params>
-		<RTestData_input_data param="data" name="test01" />
-		<mult value="1" type="numeric" />
-	</params>
-	<reference>
-		<col-defs>
-			<coldef name="x" type="numeric" />
-			<coldef name="y" type="numeric" />
-			<coldef name="sum" type="numeric" />
-		</col-defs>
-		<row>
-			<cell>1</cell>
-			<cell>2</cell>
-			<cell>3</cell>
-		</row>
-		<row>
-			<cell>1</cell>
-			<cell>2</cell>
-			<cell>3</cell>
-		</row>
-	</reference>
-	<testspec>
-		<execution execution-type="silent" />
-		<return-value compare-type="equal" diff-type="absolute"
-			tolerance="0.001" />
-	</testspec>
+  <params>
+    <RTestData_input_data param="data" name="test01" />
+    <mult value="1" type="numeric" />
+  </params>
+  <reference>
+    <col-defs>
+      <coldef name="x" type="numeric" />
+      <coldef name="y" type="numeric" />
+      <coldef name="sum" type="numeric" />
+    </col-defs>
+    <row>
+      <cell>1</cell>
+      <cell>2</cell>
+      <cell>3</cell>
+    </row>
+    <row>
+      <cell>1</cell>
+      <cell>2</cell>
+      <cell>3</cell>
+    </row>
+  </reference>
+  <testspec>
+    <execution execution-type="silent" />
+    <return-value compare-type="equal" diff-type="absolute"
+      tolerance="0.001" />
+  </testspec>
 </example_data_frame>
 ```
 
-It shall be clear, that the `reference` tag marks what the 
+It shall be clear, that the `reference` tag marks what the
 function call shall be compared against. The `testspec` tag
 shows
 
@@ -201,7 +201,7 @@ shows
   take place (silent, message, warning, error)
 2) How the return value shall be compared, here with a tolerance
     of 1E-3.
-    
+
 You can check all other definitions of the `testspec` inside the
 RTest.xsd file that can be found in `file.path(find.package("RTest"),"xsd/RTest.xsd")`
 
@@ -224,9 +224,9 @@ want to perform this task for our described
 library(magrittr)
 library(RTest)
 RTest::RTest.execute(
-   testcase.directory = list.dirs(find.package('RTest'),recursive=TRUE) %>% 
- 				grep(pattern="xml-templates",value=TRUE),
- 	open=FALSE,
+   testcase.directory = list.dirs(find.package('RTest'), recursive=TRUE) %>%
+         grep(pattern="xml-templates",value=TRUE),
+   open=FALSE,
     f.pattern = "RTest_TC-generic.xml"
 )
 ```

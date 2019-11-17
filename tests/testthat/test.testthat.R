@@ -210,3 +210,76 @@ test_that("expect_less_than old testthat",{
       options("force_implementation"=FALSE)
     })
 
+test_that("expect overwrite works", {
+      expect_old <- testthat::expect
+
+      assignInNamespace("expect", RTest::expect_testthat, ns="testthat", pos="package:testthat")
+
+      global_rep <- get_reporter()
+      # Create test collection
+      testCollection <- new("RTestCollection",
+          project.name    = "RTest Vignette",
+          project.details = "Example test exectuion",
+          tester          = "Example tester",
+          test.start      = format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
+
+      testCollection <- importTCsFromDir(testCollection,
+          xml.dPath = paste0(find.package("RTest"),"/xml-templates"),
+          f.pattern="RTest_TC-generic.xml")
+
+      outf <- tempfile(fileext=".html")
+
+      intern_reporter <- get_reporter()
+
+      set_reporter(intern_reporter)
+      # Execute all tests with two warnings
+      my_fun <<- function(){
+        warning("one")
+        warning("two")
+      }
+      testCollection <- exec(testCollection, out.fPath = outf, open=FALSE)
+
+      set_reporter(global_rep)
+
+      res1 <- testCollection@collection[[1]]@tests[["RTest"]][[5]][[1]][[1]]$reporter$results$as_list()
+
+      expect_match(
+          res1[[3]]$results[[1]]$message,
+          "Equal\\n\\{\"Test\""
+      )
+
+      assignInNamespace("expect", expect_old, ns="testthat", pos="package:testthat")
+
+      global_rep <- get_reporter()
+      # Create test collection
+      testCollection <- new("RTestCollection",
+          project.name    = "RTest Vignette",
+          project.details = "Example test exectuion",
+          tester          = "Example tester",
+          test.start      = format(Sys.time(), "%Y-%m-%d %H:%M:%S"))
+
+      testCollection <- importTCsFromDir(testCollection,
+          xml.dPath = paste0(find.package("RTest"),"/xml-templates"),
+          f.pattern="RTest_TC-generic.xml")
+
+      outf <- tempfile(fileext=".html")
+
+      intern_reporter <- get_reporter()
+
+      set_reporter(intern_reporter)
+      # Execute all tests with two warnings
+      my_fun <<- function(){
+        warning("one")
+        warning("two")
+      }
+      testCollection <- exec(testCollection, out.fPath = outf, open=FALSE)
+
+      set_reporter(global_rep)
+
+      res1 <- testCollection@collection[[1]]@tests[["RTest"]][[5]][[1]][[1]]$reporter$results$as_list()
+
+      expect_match(
+          res1[[3]]$results[[1]]$message,
+          "\\nEqual$"
+      )
+    })

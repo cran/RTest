@@ -13,7 +13,7 @@ xmlWriteTest_data.frame_cellbycell(elemname = "test",
 
 \item{desc}{(\code{character}) Description}
 
-\item{data}{(\code{data.frame}) The reference data for which the test should be 
+\item{data}{(\code{data.frame}) The reference data for which the test should be
 written.}
 
 \item{diff_type}{(\code{character}) Difference 'absolute' or 'relative' that is used for comparison.}

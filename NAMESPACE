@@ -24,6 +24,7 @@ export(
   "xmlWriteData_data.frame"                   ,
   "xmlWriteData_vector"                       ,
   "xmlWriteData_variable"                     ,
+  "xmlWriteData_params"                       ,
   "xmlWriteTest_data.frame_cellbycell"        ,
   "xmlWriteTest_vector_elementbyelement"      ,
   "xmlWriteTest_list_nodebynode"              ,
@@ -37,8 +38,6 @@ export(
   "test_returnValue_data.frame_cellbycell"    ,
   "test_returnValue_data.frame_shape"         ,
   "test_returnValue_list_nodebynode"          ,
-  "test_manualCheck_file"                     ,
-  "test_manualCheck_confirmWindow"            ,
   "test_returnValue_image"            ,
   "systemInfo.packages"                       ,
   "systemInfo.RInst"                          ,
@@ -59,8 +58,10 @@ export(
   "example_variable"              ,
 
   "expect_silent_RTest"              ,
+  "expect_testthat"                  ,
 
-  "RTest.execute"
+  "RTest.execute",
+  "RTest.getRTM"
 )
 
 
@@ -80,10 +81,6 @@ importFrom(
   "stringr","str_extract")
 
 importFrom(
-    "tcltk", "tktoplevel", "tklabel", "tclVar", "tkgrid", "tkentry", "tkbutton", "tkdestroy",
-    "tkfocus", "tclvalue")
-
-importFrom(
   "magrittr","%>%")
 
 importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
@@ -91,7 +88,7 @@ importFrom("utils", "capture.output", "ls.str", "sessionInfo", "str",
 )
 importFrom("magick", "image_compare","image_read","image_write")
 importFrom("glue", "glue","glue_collapse")
-importFrom("rlang", "enquo", "quo_label", "eval_bare")
+importFrom("rlang", "enquo", "quo_label", "eval_bare", "warn")
 importFrom("utils", "packageVersion", "assignInNamespace")
 
 

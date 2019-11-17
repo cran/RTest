@@ -12,7 +12,7 @@ getfun(x)
 \value{
 functionality of the wanted function
 
-found at 
+found at
 https://stackoverflow.com/questions/38983179/do-call-a-function-in-r-without-loading-the-package
 }
 \description{

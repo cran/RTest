@@ -7,7 +7,7 @@
 xmlReadData_list(xmlItem)
 }
 \arguments{
-\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the 
+\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the
 a list object and fullfills XSD definition 'xmlReadData_list'.}
 }
 \value{

@@ -7,8 +7,8 @@
 systemInfo.packages(which = "loadedOnly")
 }
 \arguments{
-\item{which}{(\code{character}) Specifies, which packages to display. One of 
-'\code{basePkgs}', '\code{loadedOnly}' or '\code{otherPkgs}' (for 
+\item{which}{(\code{character}) Specifies, which packages to display. One of
+'\code{basePkgs}', '\code{loadedOnly}' or '\code{otherPkgs}' (for
 details see \code{\link[utils]{sessionInfo}}.}
 }
 \value{

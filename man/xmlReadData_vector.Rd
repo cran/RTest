@@ -7,7 +7,7 @@
 xmlReadData_vector(xmlItem)
 }
 \arguments{
-\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the 
+\item{xmlItem}{(\code{XMLNode}) Object of class \code{XMLNode} that defines the
 a vector and fullfills XSD definition 'xmlReadData_vector'.}
 }
 \value{
