@@ -561,8 +561,7 @@ xmlWriteData_matrix <- function(elemname = "data", data, name = NULL, printXML =
 
   # Check input -----------------------------------------------------------------------------------
 
-  stopifnot(class(data) == "matrix")
-
+  stopifnot(is.matrix(data))
 
   # Generate XML ----------------------------------------------------------------------------------
 
@@ -731,7 +730,7 @@ xmlWriteData_list <- function(elemname = "list", data, name = NULL, printXML = T
 
   data.class <- class(data)
 
-  stopifnot(class(data) %in% c("list"))
+  stopifnot(is.list(data))
 
   xml <- paste0("<",elemname,
       if(!is.null(name)){
@@ -745,21 +744,21 @@ xmlWriteData_list <- function(elemname = "list", data, name = NULL, printXML = T
     listelementname <- names(data)[i]
 
     if(length(listelement)>1 || class(listelement)=="list"){
-      if(class(listelement)=="list"){
+      if(is.list(listelement) && !is.data.frame(listelement)){
         xml <- paste0(xml,"\n",
             xmlWriteData_list(
                 data = listelement,
                 name = listelementname,
                 printXML = F
                 ))
-      }else if(class(listelement)=="data.frame"){
+      }else if(is.data.frame(listelement)){
         xml <- paste0(xml,"\n",
             paste(xmlWriteData_data.frame(
                 name=listelementname,
                 data = listelement,
                 printXML = F
             ),collapse="\n"))
-      }else if(class(listelement)=="matrix"){
+      }else if(is.matrix(listelement)){
         xml <- paste0(xml,"\n",
             paste(xmlWriteData_matrix(
                 name=listelementname,
@@ -829,8 +828,9 @@ xmlWriteData_params <- function(elemname = "params", data, name = NULL, printXML
     listelement <- data[[i]]
     listelementname <- names(data)[i]
 
-    if(length(listelement)>1 || class(listelement)=="list"){
-      if(class(listelement)=="list"){
+    if(length(listelement)>1 || is.list(listelement)){
+
+      if(is.list(listelement) && !is.data.frame(listelement)){
         xml <- paste0(xml,"\n",
             xmlWriteData_list(
                 elemname = listelementname,
@@ -838,7 +838,7 @@ xmlWriteData_params <- function(elemname = "params", data, name = NULL, printXML
                 name = listelementname,
                 printXML = F
                 ))
-      }else if(class(listelement)=="data.frame"){
+      }else if(is.data.frame(listelement)){
         xml <- paste0(xml,"\n",
             paste(xmlWriteData_data.frame(
                 elemname = listelementname,
@@ -846,7 +846,7 @@ xmlWriteData_params <- function(elemname = "params", data, name = NULL, printXML
                 data = listelement,
                 printXML = F
             ),collapse="\n"))
-      }else if(class(listelement)=="matrix"){
+      }else if(is.matrix(listelement)){
         xml <- paste0(xml,"\n",
             paste(xmlWriteData_matrix(
                     elemname = listelementname,

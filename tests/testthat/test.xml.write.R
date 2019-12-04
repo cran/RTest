@@ -512,7 +512,7 @@ test_that("xmlWriteData_params",{
 
       )
       expect_output(
-          RTest:::xmlWriteData_params(data=test_list,name="mylist",printXML=T)
+          RTest:::xmlWriteData_params(data=test_list, name="mylist", printXML=T)
       )
 
       expect_equal(

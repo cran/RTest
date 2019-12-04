@@ -1,5 +1,5 @@
-d485e0705634781496a3e2fd0550632f *DESCRIPTION
-d9ba06d0dcb63da2f5f8dab342ff30ce *NAMESPACE
+459a46789a957b22ed40bedaef1978cc *DESCRIPTION
+9192ab1d579644efecbbb223c0535a8b *NAMESPACE
 aa1bb76c377c1d52bcea32904ad05552 *R/RTest-package.R
 b8a7b5aba011caca75bb4a3a0a6aa29e *R/RTestCase.R
 6652656729d14392af452112ac2d538e *R/RTestCase.test-adapter.R
@@ -9,16 +9,16 @@ bccb83b05260ed542b0c4554a946b1f2 *R/utils.examples.R
 e9fe1b05b1d3fb51a1e95095009baebf *R/utils.test.R
 39f815692460967904f3c5510d5a9abe *R/utils.testthat.R
 b4bfa574c66a14da6b5d82866e17f89a *R/utils.xmlRead.R
-82a5b2829eefe5fe8f929d41b23f7fb9 *R/utils.xmlWrite.R
+b0916069fecf68ba81f55ac4a75d6294 *R/utils.xmlWrite.R
 4cfcf5dcbae6a5999603b044fc522489 *build/vignette.rds
 cdad472f9ecd0a7626f6747b9cfb5a45 *inst/ChangeLog.txt
 f2ffe9cb23c9067261cf81356e775933 *inst/css/style.css
 273cdb0adf150673a4e4e34deaf910e0 *inst/doc/RTest-test-adapter.R
 cd1542e3dd9b44f0a07bbbf4e2132884 *inst/doc/RTest-test-adapter.Rmd
-424d6ad3dc8659a596200d7fa4166682 *inst/doc/RTest-test-adapter.pdf
+ceeefe2f84b4e46c93499cb71c12b6b0 *inst/doc/RTest-test-adapter.pdf
 4321d6c7847e57defaf29fe6e69a9bb2 *inst/doc/RTest.R
 e14430d221a2ddb34e3b3914b75b0498 *inst/doc/RTest.Rmd
-b140a81cab676bbe4f442e739bd007f7 *inst/doc/RTest.pdf
+90c2c47e274bd311457e1569f2049885 *inst/doc/RTest.pdf
 460c7da9797fa4808a96cf504c3bc653 *inst/images/RTest.png
 d5ce720e8a85ba2172e62f5840d54805 *inst/images/Roche_Logo.png
 a98042862ce4a65fda6671aebb6b256c *inst/images/Roche_Logo_defect.png
@@ -145,7 +145,7 @@ a192247040a7fa8549033709f0895480 *tests/testthat/test.testthat.R
 25f30b88c73d4bc5d375090cfe5c61e1 *tests/testthat/test.utils.test.R
 27c4a84c22f685e9bb01733205e4bb50 *tests/testthat/test.utils.test.df.R
 1f29b66b6fef4387faf1a66ad60f5c61 *tests/testthat/test.utils.test.list.R
-130f0b49a938c8eabaec30e61c023fc7 *tests/testthat/test.xml.write.R
+3aada287eae591e8132afe03e5efd5d9 *tests/testthat/test.xml.write.R
 cd1542e3dd9b44f0a07bbbf4e2132884 *vignettes/RTest-test-adapter.Rmd
 e14430d221a2ddb34e3b3914b75b0498 *vignettes/RTest.Rmd
 cfcc1ab2943641ec508f32007fe8e091 *vignettes/RTest_TC-generic.xml

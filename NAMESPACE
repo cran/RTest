@@ -29,6 +29,7 @@ export(
   "xmlWriteTest_vector_elementbyelement"      ,
   "xmlWriteTest_list_nodebynode"              ,
   "xmlWriteTest_execution"                    ,
+  "xmlWriteData_list"                         ,
   "xmlFromList"                  ,
 
   "test_execution"                            ,

@@ -1,6 +1,6 @@
 Package: RTest
-Version: 1.2.5
-Date: 2019-11-13
+Version: 1.2.6
+Date: 2019-12-04
 Title: A XML-Based Testing Framework for Automated Component Tests of R
         Packages
 Authors@R: c(
@@ -33,5 +33,5 @@ Author: Sebastian Wolf [aut, cre],
 Maintainer: Sebastian Wolf <sebastian@mail-wolf.de>
 BugReports: https://github.com/zappingseb/RTest/issues
 Repository: CRAN
-Packaged: 2019-11-17 12:43:00 UTC; travis
-Date/Publication: 2019-11-17 13:10:02 UTC
+Packaged: 2019-12-04 15:24:45 UTC; travis
+Date/Publication: 2019-12-04 16:10:08 UTC
